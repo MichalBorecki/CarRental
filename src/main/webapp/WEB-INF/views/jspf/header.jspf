@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="CarRental Application">
+<meta name="author" content="Michał Borecki">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<title>CarRental</title>
+
+<!-- Bootstrap core CSS -->
+<link href="<c:url value ='/resources/css/bootstrap.css" rel="stylesheet'></c:url>">
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link href="<c:url value ='/resources/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet'></c:url>">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
