@@ -5,30 +5,39 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-
 </head>
 <body>
 
 	<%@ include file="/WEB-INF/views/jspf/navbar.jspf"%>
 
 	<div class="container">
+
 		<div class="form-row justify-content-center">
-			<div class="col-md-12 ">
 
-				<div class="container-box-child">
-					<h5>Wybierz auto do wypożyczenia <img src="<c:url value ='/resources/images/flag.png'></c:url>" /></h5>
-				</div>
-
-				<div id="map"></div>
-
+			<div class="form-group col-md-12 ">
+			
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>Sender</th>
+							<th>Received on</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					<c:forEach items="${messages }" var="message">
+					<tr>
+						<td>${message.sender.fullName}</td>
+						<td>${message.created}</td>
+						<td>${message.messageText}</td>
+					</tr>
+					</c:forEach>
+				</table>
 			</div>
+
 		</div>
 	</div>
-	<script src="<c:url value ='/resources/js/map-google.js'></c:url>"></script>
+
 	<%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz4rXsfTPzzbKSAkSMcsQtu_myTBLGDs0&callback=initMap">
-</script>
 </body>
 </html>
 
