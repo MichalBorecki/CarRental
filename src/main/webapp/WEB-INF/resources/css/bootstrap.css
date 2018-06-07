@@ -601,6 +601,34 @@ pre code {
 .slide-row{
 	padding: 10px;
 }
+
+#map .gm-style-iw {
+  background-color: #252525;
+
+}
+#map .iw-content p {
+  text-align: center;	
+  color: white;
+}
+#map .iw-subTitle {
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 14px 14px;
+}
+.car-info{
+	text-align: left;
+	margin-bottom: 0rem;
+}
+.button-single {
+	margin-top: 1rem;
+	margin-bottom: 0rem;
+}
+.td-btn {
+	padding: 0px !important;
+	line-height: 0;
+}
+
 /*
 
  not bootstrap CSS /end/

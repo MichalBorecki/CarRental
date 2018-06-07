@@ -16,22 +16,28 @@
 
 			<div class="form-group col-md-12 ">
 			
-				<table class="table table-hover table-bordered">
+				<table class="table table-hover table-bordered text-center align-middle">
 					<thead>
 						<tr>
-							<th>Username</th>
-							<th>Name</th>
-							<th>Surname</th>
-							<th>Message</th>
+							<th>Nazwa użytkownika</th>
+							<th>Imię i nazwisko</th>
+							<th>Status konta</th>
+							<th>Akcja</th>
 						</tr>
 					</thead>
-					<c:forEach items="${usersFound}" var="u">
-						<tr>
-							<td>${u.userName}</td>
-							<td>${u.firstName}</td>
-							<td>${u.lastName}</td>
-							<td><a class="btn btn-sm btn-info" href="<c:url value='/message/add/${u.id}'></c:url>">Write message</a></td>
-						</tr>
+					<c:forEach items="${users}" var="user">
+						<tr><form:form action="/CarRental/user/activate" method="POST" modelAttribute="user">
+							<td>${user.userName}</td>
+							<td>${user.fullName}</td>
+							<td><c:choose>
+									<c:when test="${user.enabled == false}">
+										<form:input path="enabled" hidden="enabled" value="1" />Konto nieaktywne</c:when>
+									<c:otherwise>
+										<form:input path="enabled" hidden="enabled" value="0" />Konto aktywne</c:otherwise>
+								</c:choose></td>
+							<td><a class="btn btn-info btn-sm btn-block" href="<c:url value='/message/add/${user.id}'></c:url>">Wyślij
+									wiadomość</a> <input class="btn btn-secondary btn-sm btn-block" type="submit" value="Aktywuj/deaktywuj konto" /></td>
+						</form:form></tr>
 					</c:forEach>
 				</table>
 			</div>

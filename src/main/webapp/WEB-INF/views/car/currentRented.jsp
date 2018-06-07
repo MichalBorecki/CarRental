@@ -15,25 +15,37 @@
 		<div class="form-row justify-content-center">
 
 			<div class="form-group col-md-12 ">
-			
-				<table class="table table-sm table-hover table-bordered">
-					<thead>
-						<tr>
-							<th>Model</th>
-							<th>Numer</th>
-							<th>Wypożyczenie od</th>
-							<th>Szczegóły samochodu</th>
-							<th>Akcja</th>
-						</tr>
-					</thead>
-					<tr>
-						<td>${car.model}</td>
-						<td>${car.carNumber}</td>
-						<td></td>
-						<td>${car.description}</td>
-						<td><a class="btn btn-sm btn-info" href="<c:url value='/car/return/${car.id}'></c:url>">Koniec wypożyczenia</a></td>
-					</tr>
-				</table>
+				<c:choose>
+					<c:when test="${ empty( rent ) }">
+						<div class="container-box-child">
+							<h5>Nie masz wypożyczonego samochodu</h5>
+						</div>
+					</c:when>
+					<c:otherwise>
+					<div class="container-box-child">
+						<h5><c:out value="${msg}" default="Aktualnie wypożyczone:" /></h5>
+					</div>
+						<form:form action="/CarRental/rent/end" method="POST" modelAttribute="rent">
+							<table class="table text-center table-sm table-hover table-bordered">
+							<form:input path="id" hidden="true"/>
+								<thead>
+									<tr>
+										<th>Model</th>
+										<th>Numer</th>
+										<th>Wypożyczenie od</th>
+										<th>Akcja</th>
+									</tr>
+								</thead>
+								<tr class="align-middle">
+									<td>${rent.car.model}</td>
+									<td>${rent.car.carNumber}</td>
+									<td>${rent.start}</td>
+									<td class="td-btn"><input class="btn btn-info w-100 h-100" type="submit" name="submit" value="Koniec wypożyczenia" /></td>
+								</tr>
+							</table>
+						</form:form>
+					</c:otherwise>
+				</c:choose>
 			</div>
 
 		</div>

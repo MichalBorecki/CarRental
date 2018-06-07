@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,6 +33,9 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepo;
 
+	/*
+	 * Register
+	 */
 	@GetMapping("/register")
 	public String register(Model model) {
 		model.addAttribute("user", new User());
@@ -44,13 +48,15 @@ public class UserController {
 			model.addAttribute("user", user);
 			return "user/register";
 		}
-		user.setEnabled(true); // can be change in future by administrator
 		this.userRepo.save(user);
 		model.addAttribute("user", user);
 		return "redirect:/";
 
 	}
 
+	/*
+	 * Log in
+	 */
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("loginData", new LoginData());
@@ -77,6 +83,9 @@ public class UserController {
 		return "user/login";
 	}
 
+	/*
+	 * Logout
+	 */
 	@GetMapping("/logout")
 	public String logout(SessionStatus status, Model model, HttpServletRequest request) {
 		status.setComplete();
@@ -84,7 +93,9 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	// update
+	/*
+	 * Update
+	 */
 	@GetMapping("/update/{id}")
 	public String updateUser(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
@@ -101,8 +112,18 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "redirect:/";
 	}
+	
+	@PostMapping("/activate")
+	public String changeStatus(@ModelAttribute User user, Model model) {
 
-	// Show user by ID
+		this.userRepo.save(user);
+		model.addAttribute("user", user);
+		return "user/showUser";
+	}
+
+	/*
+	 * Show user by ID
+	 */
 	@GetMapping("/{id}")
 	public String showUserById(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
@@ -110,16 +131,35 @@ public class UserController {
 		return "user/showUser";
 	}
 
-	// find by term
-	@GetMapping("/find/{term}")
-	public String findByTerm(@PathVariable String term, Model model) {
+	/*
+	 * Find form
+	 */
+	@GetMapping("/find")
+	public String findForm(Model model) {
+		return "user/findUser";
+	}
+
+	/*
+	 * Find by term
+	 */
+	@GetMapping("/findterm{term}")
+	public String findByTerm(@RequestParam("term") String term, Model model, HttpServletRequest request) {
+		System.out.println(term);
 		String termCorrected = term.replace("+", " ");
+		System.out.println(termCorrected);
 		List<User> usersFound = userRepo.findUserLike(termCorrected);
-		model.addAttribute("usersFound", usersFound);
+		System.out.println(usersFound);
+		if (usersFound.equals(null)) {
+			model.addAttribute("msg", "Nie znaleziono użtykownika dla frazy: " + termCorrected);
+			return "user/findUser";
+		}
+		model.addAttribute("users", usersFound);
 		return "user/showList";
 	}
 
-	// model
+	/*
+	 * Model
+	 */
 	@ModelAttribute("users")
 	public List<User> getUsers() {
 		return this.userRepo.findAll();

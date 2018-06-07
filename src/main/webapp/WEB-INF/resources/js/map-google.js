@@ -1,130 +1,254 @@
-      
+/*
+ * Initialize the map
+ */
+var markers = [];
+var map;
+var shape = {
+	coords : [ 1, 1, 1, 20, 18, 20, 18, 1 ],
+	type : 'poly'
+};
+var pos;
 
-      // Initialize the map
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: {
-            lat: 51.10905,
-            lng: 17.03107
-          }
-        });
-
-       
-        var url = "http://localhost:8080/CarRental/";  
-      var htmlType = "GET";
-
-      ajaxCall(htmlType)
-        .done(function(cars) {
-          console.log("Free cars loaded");
-          console.log(cars);
-
-          setMarkers(map)
+/*
+ * Init MAP
+ */
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom : 13,
+		center : {
+			lat : 51.10905,
+			lng : 17.03107
+		},
+		mapTypeId : google.maps.MapTypeId.ROADMAP
+	});
+	
+	/*
+	 * Set trafficLayer on map
+	 */
+    var trafficLayer = new google.maps.TrafficLayer();
+    trafficLayer.setMap(map);
 
 
-          // Add markers to the map
-          function setMarkers(map) {
-        	
-            var image = {
-              url:  'resources/images/flag.png',
-              size: new google.maps.Size(20, 32),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(0, 32)
-            };
+	/*
+	 * MARKER/INFO FOR USER
+	 */
+	var infoUser = new google.maps.InfoWindow;
 
-            var shape = {
-              coords: [1, 1, 1, 20, 18, 20, 18, 1],
-              type: 'poly'
-            };
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+				pos = {
+				lat : position.coords.latitude,
+				lng : position.coords.longitude
+			};
 
-            var infowindow = new google.maps.InfoWindow();
+			var userMarker = new google.maps.Marker({
+				position : pos,
+				map : map,
+			});
 
-            cars.forEach(function(car) {
-                 var marker = new google.maps.Marker({
-                   position: {
-                     lat: car.lat,
-                     lng: car.lng
-                   },
-                   map: map,
-                   icon: image,
-                   shape: shape,
-                   zIndex: car.carNumber
-                 });
+			infoUser.setPosition(pos);
+			infoUser.setContent('<div class="iw-content"><p>Twoja lokalizacja</p></div>');
 
-                 google.maps.event.addListener(marker, 'mouseover', (function(marker, car) {
-                   return function() {
-                     var contentString = '<div>' +
-                       '<p><a href="' + url + 'car/' + car.carNumber + '">' +
-                       '<h6 style="text-align: center">' + car.model + '</h6></a></p>' +
-                       '<p style="text-align: center">Nr auta: <b>' + car.carNumber + '</b></p>' +
-                       '</div>';
-                     infowindow.setContent(contentString);
-                     infowindow.open(map, marker);
+			/*
+			 * infoUser Mouseover
+			 */
+			google.maps.event.addListener(userMarker, 'mouseover', function() {
+				infoUser.open(map, userMarker);
+			});
 
-                   }
-                 })(marker, car));
-            });
-            
-/*             
-          for (var i = 0; i < cars.length; i++) {
-              var car = cars[i];
-              var marker = new google.maps.Marker({
-                position: {
-                  lat: car[2],
-                  lng: car[3]
-                },
-                map: map,
-                icon: image,
-                shape: shape,
-                zIndex: car[1]
-              });
+			/*
+			 * infoUser Mouseout
+			 */
+			google.maps.event.addListener(userMarker, 'mouseout', function() {
+				infoUser.close();
+			});
 
-              google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-                return function() {
-                  var contentString = '<div>' +
-                    '<p><a href="' + url + 'car/' + cars[i][1] + '">' +
-                    '<h6 style="text-align: center">' + cars[i][0] + '</h6></a></p>' +
-                    '<p style="text-align: center">Nr auta: <b>' + cars[i][1] + '</b></p>' +
-                    '</div>';
-                  infowindow.setContent(contentString);
-                  infowindow.open(map, marker);
+			map.setCenter(pos);
+		}, function() {
+			handleLocationError(true, infoUser, map.getCenter());
+		});
+	} else {
+		// Browser doesn't support Geolocation
+		handleLocationError(false, infoUser, map.getCenter());
+	}
+}
 
-                }
-              })(marker, i));
+/*
+ * Set info for infoUser when browser doesn't support Geolocation
+ */
+function handleLocationError(browserHasGeolocation, infoUser, pos) {
+	infoUser.setPosition(pos);
+	infoUser.setContent(browserHasGeolocation ? '<div class="iw-content"><p>Błąd geolokalizacji.</p></div>'
+			: '<div class="iw-content"><p>Twoja przeglądarka nie akceptuje geolokalizacji.</p></div>');
+	infoUser.open(map);
 
-            }
-            */
-          }
+	
+	/* 
+	 * -------------------
+	 * MARKERS FOR CARS
+	 * 	-------------------
+	 */
+	
+	 
+	var url = "http://localhost:8080/CarRental/";
+	var htmlType = "GET";
 
-        })
-        .fail(function(statusText, e) {
-          console.log("Error: " + e);
-          console.log(statusText);
-        })
-        .always(function() {
-          console.log("End of connection");
-        });
+	/*
+	 * Call method ajaxCall and get cars data
+	 */
+	ajaxCall(htmlType).done(
+			function(cars) {
+				console.log("Free cars loaded");
+				console.log(cars);
 
-      function ajaxCall(htmlType) {
-        return $.ajax({
-          type: htmlType,
-          url: url + "car/allFreeForMap",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          dataType: 'json'
-        });
+				setMarkers(map)
 
-      };
-      }
+				/*
+				 * Add markers to the map
+				 */
+				function setMarkers(map) {
 
-      // var cars = [
-      //model, carNumber, mileage, description, user, lat, lng
-      //   ['Opel Astra', 0001, 51.12125, 17.03117],
-      //   ['Opel Astra', 0002, 51.11915, 17.05617],
-      //   ['Opel Astra', 0003, 51.11225, 17.03627],
-      //   ['Opel Astra', 0004, 51.09215, 17.03417],
-      //   ['Opel Astra', 0005, 51.11905, 17.04307]
-      // ];
+					/*
+					 * Shape of marker
+					 */
 
+					/*
+					 * Create markers for each car
+					 */
+					cars.forEach(function(car) {
+						var marker = new google.maps.Marker({
+							position : {
+								lat : car.lat,
+								lng : car.lng
+							},
+							map : map,
+					        icon: {
+					            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+					            scale: 5
+					        },
+							zIndex : car.carNumber
+						});
+						/*
+						 * Add marker to array
+						 */
+						markers.push(marker);
+
+						var infowindow = new google.maps.InfoWindow();
+						var clicked = false;
+
+						/*
+						 * Close all opened infowindows and set clicked on false
+						 */
+						google.maps.event.addListener(map, 'click', function() {
+							if (infowindow) {
+								infowindow.close();
+								clicked = false;
+							}
+						});
+
+						/*
+						 * content of each marker
+						 */
+						var contentString = '<div class="iw-content">'
+								+ '<p><a class="btn btn-info iw-subTitle" href="' + url + 'car/rent/' + car.carNumber
+								+ '">Wypożycz:<br><b>' + car.model + '</b><br>nr auta: <b>' + car.carNumber + '</b></a></p></div>';
+
+						/*
+						 * Mouseover
+						 */
+						google.maps.event.addListener(marker, 'mouseover', function() {
+							if (!clicked) {
+								infowindow.setContent(contentString);
+								infowindow.open(map, marker);
+
+							}
+						});
+
+						/*
+						 * Mouseout
+						 */
+						google.maps.event.addListener(marker, 'mouseout', function() {
+							if (!clicked) {
+								infowindow.close();
+							}
+						});
+
+						/*
+						 * On click on marker
+						 */
+						google.maps.event.addListener(marker, 'click', function() {
+							clicked = true;
+							infowindow.setContent(contentString);
+							infowindow.open(map, marker);
+
+						});
+
+						/*
+						 * Click on close button, change var clicked on false
+						 */
+						google.maps.event.addListener(infowindow, 'closeclick', function() {
+							clicked = false;
+						})
+
+						/*
+						 * Set the look of infowindow content
+						 */
+						google.maps.event.addListener(infowindow, 'domready', function() {
+							var iwOuter = $('.gm-style-iw');
+							var iwBackground = iwOuter.prev();
+							iwBackground.children(':nth-child(2)').css({
+								'background' : '#252525'
+							});
+							var iwmain = iwBackground.children(':nth-child(2)');
+							iwBackground.children(':nth-child(4)').css({
+								'display' : 'none'
+							});
+							var iwCloseBtn = iwOuter.next();
+						});
+
+					});
+					findClosestCar()
+				}
+
+			}).fail(function(statusText, e) {
+		console.log("Error: " + e);
+		console.log(statusText);
+	}).always(function() {
+		console.log("End of connection");
+	});
+	/*
+	 * AjaxCall for get list of free cars
+	 */
+	function ajaxCall(htmlType) {
+		return $.ajax({
+			type : htmlType,
+			url : url + "car/allFreeForMap",
+			headers : {
+				'Accept' : 'application/json',
+				'Content-Type' : 'application/json'
+			},
+			dataType : 'json'
+		});
+
+	};
+
+	/*
+	 * Find nearest marker
+	 */
+	function findClosestCar() {
+		var distances = [];
+		var closest = -1;
+		for (i = 0; i < markers.length; i++) {
+			var d = google.maps.geometry.spherical.computeDistanceBetween(markers[i].position, pos);
+			distances[i] = d;
+			if (closest == -1 || d < distances[closest]) {
+				closest = i;
+			}
+		}
+		/*
+		 * Set bounce animation to closest marker
+		 */
+		markers[closest].setAnimation(google.maps.Animation.BOUNCE);
+		setTimeout(function(){ markers[closest].setAnimation(null); }, 20000);
+	}
+}

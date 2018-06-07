@@ -23,6 +23,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pl.coderslab.carrental.converter.CarConverter;
+import pl.coderslab.carrental.converter.RentConverter;
 import pl.coderslab.carrental.converter.UserConverter;
 
 @Configuration
@@ -78,11 +80,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(getUserConverter());
+		registry.addConverter(getCarConverter());
+		registry.addConverter(getRentConverter());
 	}
 
 	@Bean
 	public UserConverter getUserConverter() {
 		return new UserConverter();
 	}
-
+	
+	@Bean
+	public CarConverter getCarConverter() {
+		return new CarConverter();
+	}
+	@Bean
+	public RentConverter getRentConverter() {
+		return new RentConverter();
+	}
 }

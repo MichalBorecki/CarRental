@@ -8,7 +8,7 @@
 	<div class="container">
 
 		<!-- Text logo -->
-		<a class="navbar-brand" href="<c:url value='/'></c:url>">Wypożycz- <i class="fas fa-car"></i> -alnia
+		<a class="navbar-brand" href="<c:url value='/'></c:url>"><img src="<c:url value ='/resources/images/logo.png'></c:url>" />
 		</a>
 
 		<!-- Toggle navigation -->
@@ -66,12 +66,11 @@
 									href="<c:url value='/car/allrented'></c:url>">Lista wypożyczonych samochodów</a> <a class="dropdown-item"
 									href="<c:url value='/car/history'></c:url>">Historia wypożyczeń</a>
 							</div></li>
-						<!-- Message menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Wiadomości" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-								class="fas fa-envelope"></i></a>
+						<!-- Users menu -->
+						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Użytkownicy" href="#"
+							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i></a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/message/add/{receiverId}'></c:url>">Wyślij wiadomość</a> <a
+								<a class="dropdown-item" href="<c:url value='/user/find'></c:url>">Szukaj użytkownika</a> <a
 									class="dropdown-item" href="<c:url value='/message/all'></c:url>">Wiadomości</a>
 							</div></li>
 					</ul>
@@ -79,7 +78,7 @@
 				</c:when>
 
 				<c:otherwise>
-					<!-- User button -->
+					<!-- User menu -->
 					<ul class="navbar-nav w-100 justify-content-end">
 						<!-- Home button -->
 						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Strona główna"
@@ -104,8 +103,8 @@
 								class="fas fa-car"></i></a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
-								<a class="dropdown-item" href="<c:url value='/car/current'></c:url>">Obecnie wypożyczone</a> <a
-									class="dropdown-item" href="<c:url value='/car/history'></c:url>">Historia wypożyczeń</a>
+								<a class="dropdown-item" href="<c:url value='/rent/current'></c:url>">Obecnie wypożyczony</a> <a
+									class="dropdown-item" href="<c:url value='/rent/all/user'></c:url>">Historia wypożyczeń</a>
 							</div></li>
 						<!-- Message menu -->
 						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Wiadomości" href="#"

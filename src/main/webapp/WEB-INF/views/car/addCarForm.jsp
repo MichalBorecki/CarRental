@@ -31,6 +31,7 @@
 								<label class="label" for="model">Model</label>
 								<form:input class="form-control is-valid" path="model" id="model" name="model" required="true" />
 								<form:errors path="model" cssClass="valid-feedback" />
+								<form:input path="id" hidden="true" value="${car.id }"/>
 							</div>
 							<div class="form-group col-md-6">
 								<label class="label" for="carNumber">Numer samochodu</label>
@@ -50,7 +51,7 @@
 									name="description" required="true" />
 								<form:errors path="description" cssClass="valid-feedback" />
 							</div>
-							<div class="form-group col-md-12">Określ położenie początkowe auta:</div>
+							<div class="form-group col-md-12">Określ położenie auta:</div>
 							<div class="form-group col-md-6">
 								<label class="label" for="lat">Szerokość geograficzna</label>
 								<form:input class="form-control is-valid" path="lat" id="lat" name="lat" type="number" step="0.0000001"

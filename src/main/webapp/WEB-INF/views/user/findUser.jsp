@@ -5,32 +5,34 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-
 </head>
 <body>
 
 	<%@ include file="/WEB-INF/views/jspf/navbar.jspf"%>
 
 	<div class="container">
+
 		<div class="form-row justify-content-center">
-			<div class="col-md-12 ">
 
-				<div class="container-box-child">
-					<h5>Wybierz auto do wypożyczenia</h5>
+			<div class="form-group col-md-10 col-lg-8 ">
+
+				<div class="container-box-child"><c:out  value="${msg }" default="Wyszukaj użytkownika"></c:out>
+					
+					<form class="input-group w-100" action="<c:url value='/user/findterm'></c:url>">
+						<input type="text" class="form-control" name="term" placeholder="Szukaj..." required="true">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</form>
 				</div>
-
-				<div id="map"></div>
-
 			</div>
+
 		</div>
 	</div>
-	<script src="<c:url value ='/resources/js/map-google.js'></c:url>"></script>
-	<%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
-	
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz4rXsfTPzzbKSAkSMcsQtu_myTBLGDs0&libraries=geometry&callback=initMap">
-</script>
 
+	<%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>
 </html>
 
