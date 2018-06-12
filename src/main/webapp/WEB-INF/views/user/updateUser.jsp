@@ -16,7 +16,7 @@
 			<div class="form-group col-md-6">
 
 				<div class="container-box-child">
-					<form:form action="/MyTwitter/user/update" method="post" modelAttribute="user">
+					<form:form action="/CarRental/user/update" method="post" modelAttribute="user">
 
 						<div class="form-row">
 							<div class="form-group col-md-12">
