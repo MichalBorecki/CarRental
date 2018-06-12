@@ -37,7 +37,7 @@
 							<td>${car.model}</td>
 							<td>${car.carNumber}</td>
 							<td>${car.description}</td>
-							<td><c:choose><c:when test="${car.user !=null }"><a class="btn btn-sm btn-info" href="<c:url value='/message/add/${car.user.id}'></c:url>">Wypożyczone<br><i
+							<td><c:choose><c:when test="${car.user !=null }"><a class="btn btn-sm btn-info" href="<c:url value='/message/add/${car.user.id}'></c:url>">Wypożyczone.<br><i
 								class="fas fa-envelope"></i> do ${car.user.fullName}</a></c:when><c:otherwise><a class="btn btn-sm btn-info" href="<c:url value='/car/update/${car.id}'></c:url>">Edytuj</a> <a
 								class="btn btn-sm btn-info" href="<c:url value='/car/delete/${car.id}'></c:url>">Usuń</a></c:otherwise></c:choose></td>
 						</tr>

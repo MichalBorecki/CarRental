@@ -1,23 +1,17 @@
 package pl.coderslab.carrental.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-//	@Autowired
-//	private UserRepository userRepo;
 
-	// get all data for home page
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpServletRequest request) {
 		return "home";
 	}
-
-
-
-	// model
-
 	
 }

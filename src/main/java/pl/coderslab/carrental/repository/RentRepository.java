@@ -19,6 +19,7 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
 	@Query("SELECT r FROM Rent r WHERE r.end IS NULL ORDER BY r.start DESC")
 	List<Rent> findAllWhereEndIsNull();
 	
-	
+	@Query("SELECT r FROM Rent r WHERE r.end IS NOT NULL ORDER BY r.start DESC")
+	List<Rent> findAllWhereEndIsNotNull();
 	
 }

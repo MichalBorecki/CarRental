@@ -18,7 +18,7 @@
 		</button>
 
 		<!-- Collapsing navbar buttons -->
-		<div class="collapse navbar-collapse" id="collapsingNavbar">
+		<div class="collapse navbar-collapse  w-100" id="collapsingNavbar">
 			<c:choose>
 
 				<c:when
@@ -40,9 +40,9 @@
 
 					<!-- Admin menu -->
 					<ul class="navbar-nav w-100 justify-content-end">
-						<!-- Home button -->
-						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Strona główna"
-							href="<c:url value='/'></c:url>"> <i class="fas fa-home"></i><span class="sr-only">Strona główna</span>
+						<!-- Map button -->
+						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Mapa"
+							href="<c:url value='/car/mapAdmin'></c:url>"> <i class="fas fa-map"></i><span class="sr-only">Mapa</span>
 						</a></li>
 						<!-- User menu -->
 						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Moje konto" href="#"
@@ -64,14 +64,14 @@
 									href="<c:url value='/car/all'></c:url>">Wszystkie samochody</a> <a class="dropdown-item"
 									href="<c:url value='/car/allfree'></c:url>">Lista wolnych samochodów</a> <a class="dropdown-item"
 									href="<c:url value='/car/allrented'></c:url>">Lista wypożyczonych samochodów</a> <a class="dropdown-item"
-									href="<c:url value='/car/history'></c:url>">Historia wypożyczeń</a>
+									href="<c:url value='/rent/all'></c:url>">Historia wypożyczeń</a>
 							</div></li>
 						<!-- Users menu -->
 						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Użytkownicy" href="#"
 							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i></a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/user/find'></c:url>">Szukaj użytkownika</a> <a
-									class="dropdown-item" href="<c:url value='/message/all'></c:url>">Wiadomości</a>
+								<a class="dropdown-item" href="<c:url value='/user/find'></c:url>">Szukaj użytkownika</a>
+								<a class="dropdown-item" href="<c:url value='/user/findterm?term=Serwisant'></c:url>">Serwis samochodowy</a>
 							</div></li>
 					</ul>
 
@@ -90,9 +90,8 @@
 								class="fas fa-user"></i>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/user/update/${user.id }'></c:url>"> Zaktualizuj dane </a> <a
-									class="dropdown-item" href="<c:url value='/user/stats/${user.id }'></c:url>"> Statystyka </a> <a
-									class="dropdown-item" href="<c:url value='/user/charges/${user.id }'></c:url>"> Opłaty </a>
+								<a class="dropdown-item" href="<c:url value='/user/update/${user.id }'></c:url>"> Zaktualizuj dane </a>  <a
+									class="dropdown-item" href="<c:url value='/rent/charges'></c:url>">Opłaty i statystyka </a>
 								<!-- Logout -->
 								<a class="dropdown-item" href="<c:url value='/user/logout'></c:url>"> Wyloguj <i class="fas fa-sign-out-alt"></i>
 								</a>

@@ -18,17 +18,17 @@
 
 				<table class="table table-sm table-hover table-bordered text-center table-message">
 					<thead>
-						<tr >
-							<td class="table-warning slide-all" colspan="2">Pokaż/ukryj wszystkie</td>
+						<tr>
+							<td class="table-warning col-10 slide-all" colspan="2">Pokaż/ukryj wszystkie</td>
 						</tr>
-						<tr  style="padding: 15px">
-							<th class="col-5" style="width: 50%">Twoje wiadomości</th>
-							<th class="col-5" style="width: 50%">CarRental</th>
+						<tr style="padding: 15px">
+							<th class="col-5" style="width: 50%" >CarRental</th>
+							<th class="col-5" style="width: 50%" >${sender.fullName}</th>
 						</tr>
 					</thead>
 					<c:forEach items="${messages }" var="message">
 						<!-- Set color (red for urgent message) and font style (bold for unread message) -->
-						<tr class="message-tr 
+						<tr class="message-tr  
 							<c:choose>
 									<c:when test="${message.urgent == false}">table-info</c:when>
 									<c:when test="${message.urgent == true}">table-danger</c:when>
@@ -36,11 +36,11 @@
 							</c:choose>" data-id="${message.id }"  data-user="${message.receiver.id }">
 							<!-- Messages from this user - where receiver is Administration -->
 							<td class="border-dark"><c:choose>
-									<c:when test="${message.receiver.id == 1}">${message.created}</c:when>
+									<c:when test="${message.receiver.id == sender.id}">${message.created}</c:when>
 							</c:choose></td>
 							<!-- Messages from Administration to this user - where receiver is sessionScope user-->
 							<td class="border-dark"><c:choose>
-									<c:when test="${message.receiver.id == sessionScope.user.id}">${message.created}</c:when>
+									<c:when test="${message.receiver.id == 1}">${message.created}</c:when>
 							</c:choose></td>
 						</tr>
 						<tr class="
@@ -49,10 +49,10 @@
 									<c:when test="${message.urgent == true}">table-danger</c:when>
 									<c:when test="${(message.ifRead == false) and (message.receiver.id == sessionScope.user.id)}"> font-weight-bold</c:when>
 							</c:choose>"><td style="padding: 2px">
-     						 <div class="slide-row" style="display: none;"><c:choose><c:when test="${message.receiver.id == 1}">${message.messageText}</c:when></c:choose></div></td>
+     						 <div class="slide-row" style="display: none;"><c:choose><c:when test="${message.receiver.id == sender.id}">${message.messageText}</c:when></c:choose></div></td>
      						 
      						 <td style="padding: 2px">
-     						 <div class="slide-row" style="display: none;"><c:choose><c:when test="${message.receiver.id == sessionScope.user.id}">${message.messageText}</c:when></c:choose></div></td></tr>
+     						 <div class="slide-row" style="display: none;"><c:choose><c:when test="${message.receiver.id == 1}">${message.messageText}</c:when></c:choose></div></td></tr>
 					</c:forEach>
 				</table>
 			</div>

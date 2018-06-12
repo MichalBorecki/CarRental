@@ -1,8 +1,6 @@
 package pl.coderslab.carrental.controller;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.coderslab.carrental.entity.Car;
 import pl.coderslab.carrental.entity.Rent;
@@ -80,9 +79,10 @@ public class RentController {
 		rentForEnd.setEnd(date);
 
 
-		// for simplicity check rent time and set distance as one minute is 500 m
-		// distance covered (low average speed in big city like Wrocław)
-		
+		/*
+		 *  for simplicity check rent time and set distance as one minute is 500 m
+		 *  distance covered (low average speed in big city like Wrocław)
+		 */
 		long rentTime = rentForEnd.getRentTime();
 		double distance = rentTime * 0.5;
 		rentForEnd.setDistance(distance);
@@ -105,9 +105,9 @@ public class RentController {
 	/*
 	 * All rents
 	 */
-	@PostMapping("/all")
+	@GetMapping("/all")
 	public String findAllFree(Model model, HttpServletRequest request) {
-		model.addAttribute("rents", rentRepo.findAllWhereEndIsNull());
+		model.addAttribute("rents", rentRepo.findAllWhereEndIsNotNull());
 		return "rent/listRent";
 	}
 
@@ -123,9 +123,32 @@ public class RentController {
 		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
 		return "rent/listRent";
 	}
+	
+	/*
+	 * All rents by userId, redirect to charges view
+	 */
+	@GetMapping("/charges")
+	public String findAllRentedByUserIdForChargesView(Model model, HttpServletRequest request) {
+
+		HttpSession sess = request.getSession();
+		User user = (User) sess.getAttribute("user");
+
+		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
+		return "rent/chargesRent";
+	}
+	
+	/*
+	 * All rents by userId (for ajax)
+	 */
+	@GetMapping("/all/userInfoChart/{id}")
+	@ResponseBody
+	public List<Rent> findAllRentedByUserId(@PathVariable long id, Model model, HttpServletRequest request) {
+		List<Rent> list = rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(id);
+		return list;
+	}
 
 	/*
-	 * Find actually rent by user
+	 * Find current rental by user
 	 */
 	@GetMapping("/current")
 	public String findRentByUserId(Model model, HttpServletRequest request) {
@@ -139,7 +162,7 @@ public class RentController {
 	}
 
 	/*
-	 * model
+	 * Model
 	 */
 	@ModelAttribute("rents")
 	public List<Rent> getRents() {

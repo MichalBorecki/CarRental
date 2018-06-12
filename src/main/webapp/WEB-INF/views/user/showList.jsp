@@ -35,8 +35,10 @@
 									<c:otherwise>
 										<form:input path="enabled" hidden="enabled" value="0" />Konto aktywne</c:otherwise>
 								</c:choose></td>
-							<td><a class="btn btn-info btn-sm btn-block" href="<c:url value='/message/add/${user.id}'></c:url>">Wyślij
-									wiadomość</a> <input class="btn btn-secondary btn-sm btn-block" type="submit" value="Aktywuj/deaktywuj konto" /></td>
+							<td><a class="btn btn-info btn-sm btn-block" href="<c:url value='/user/info/${user.id}'></c:url>">Szczegóły użytkownika</a>
+							<a class="btn btn-info btn-sm btn-block" href="<c:url value='/message/add/${user.id}'></c:url>">Wyślij
+									wiadomość</a>
+									<a class="btn btn-info btn-sm btn-block" href="<c:url value='/message/adminlist/${user.id}'></c:url>">Pokaż listę wiadomości</a> <input class="btn btn-secondary btn-sm btn-block" type="submit" value="Aktywuj/deaktywuj konto" /></td>
 						</form:form></tr>
 					</c:forEach>
 				</table>

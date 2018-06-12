@@ -1,17 +1,15 @@
+/*
+ * JS for admin view of map
+ */
 
 var markers = [];
 /*
- * Set markers[0] on 0 - after initializaction it will be userMarker -localization of user
+ * Set markers[0] on 0 - after initializaction it will be userMarker
+ * -localization of user
  */
 markers[0] = 0;
 var map;
-//var shape = {
-//	coords : [ 1, 1, 1, 20, 18, 20, 18, 1 ],
-//	type : 'poly'
-//};
 var pos;
-var directionsService;
-var directionsDisplay;
 
 /*
  * Initialize the map
@@ -25,73 +23,6 @@ function initMap() {
 		},
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	});
-
-	directionsService = new google.maps.DirectionsService;
-	directionsDisplay = new google.maps.DirectionsRenderer;
-
-
-	/*
-	 * Set trafficLayer on map
-	 */
-	var trafficLayer = new google.maps.TrafficLayer();
-	trafficLayer.setMap(map);
-
-	/*
-	 * MARKER/INFO FOR USER
-	 */
-	var infoUser = new google.maps.InfoWindow;
-
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			pos = {
-				lat : position.coords.latitude,
-				lng : position.coords.longitude
-			};
-
-			var userMarker = new google.maps.Marker({
-				position : pos,
-				map : map,
-			});
-			/*
-			 * Set markers[0] as userMarker
-			 */
-			markers[0] = userMarker;
-
-			infoUser.setPosition(pos);
-			infoUser.setContent('<div class="iw-content"><p>Twoja lokalizacja</p></div>');
-
-			/*
-			 * infoUser Mouseover
-			 */
-			google.maps.event.addListener(userMarker, 'mouseover', function() {
-				infoUser.open(map, userMarker);
-			});
-
-			/*
-			 * infoUser Mouseout
-			 */
-			google.maps.event.addListener(userMarker, 'mouseout', function() {
-				infoUser.close();
-			});
-
-			map.setCenter(pos);
-		}, function() {
-			handleLocationError(true, infoUser, map.getCenter());
-		});
-	} else {
-		// Browser doesn't support Geolocation
-		handleLocationError(false, infoUser, map.getCenter());
-	}
-
-	/*
-	 * Set info for infoUser when browser doesn't support Geolocation
-	 */
-	function handleLocationError(browserHasGeolocation, infoUser, pos) {
-		infoUser.setPosition(pos);
-		infoUser.setContent(browserHasGeolocation ? '<div class="iw-content"><p>Błąd geolokalizacji.</p></div>'
-				: '<div class="iw-content"><p>Twoja przeglądarka nie akceptuje geolokalizacji.</p></div>');
-		infoUser.open(map);
-	}
 
 	/*
 	 * ------------------- MARKERS FOR CARS -------------------
@@ -135,10 +66,6 @@ function initMap() {
 							},
 							zIndex : car.carNumber
 						});
-						/*
-						 * Add marker to array
-						 */
-						markers.push(marker);
 
 						var infowindow = new google.maps.InfoWindow();
 						var clicked = false;
@@ -157,9 +84,9 @@ function initMap() {
 						 * content of each marker
 						 */
 						var contentString = '<div class="iw-content">'
-								+ '<p><a class="btn btn-info iw-subTitle" href="' + url + 'car/rent/' + car.carNumber
-								+ '">Wypożycz:<br><b>' + car.model + '</b><br>nr auta: <b>' + car.carNumber
-								+ '</b></a></p></div>';
+								+ '<p><a class="btn btn-info iw-subTitle" href="' + url + 'car/service/'
+								+ car.carNumber + '?lat=' + car.lat + '&lng=' + car.lng +'">Wezwij serwisanta:<br><b>'
+								+ car.model + '</b><br>nr auta: <b>' + car.carNumber + '</b></a></p></div>';
 
 						/*
 						 * Mouseover
@@ -215,7 +142,7 @@ function initMap() {
 						});
 
 					});
-					
+
 				}
 
 			}).fail(function(statusText, e) {
@@ -223,7 +150,7 @@ function initMap() {
 		console.log(statusText);
 	}).always(function() {
 		console.log("End of connection");
-		
+
 	});
 
 	/*
@@ -243,55 +170,3 @@ function initMap() {
 	}
 	;
 }
-
-setTimeout(findClosestCar, 1000);
-
-
-
-/*
- * Find nearest marker
- */
-function findClosestCar() {
-	var distances = [];
-	var closest = -1;
-	for (i = 1; i < markers.length; i++) {
-
-		var d = google.maps.geometry.spherical.computeDistanceBetween(markers[i].position, markers[0].position);
-
-		distances[i] = d;
-
-		if (closest == -1 || d < distances[closest]) {
-			closest = i;
-		}
-	}
-	/*
-	 * Set bounce animation to closest marker
-	 */
-	markers[closest].setAnimation(google.maps.Animation.BOUNCE);
-	setTimeout(function() {
-		markers[closest].setAnimation(null);
-	}, 20000);
-	
-    var start = markers[0].position;
-    var end = markers[closest].position;
-
-
-	/*
-	 * Get route from userLocatin into nearest car
-	 */
-    directionsService.route({
-        origin:start, 
-        destination:end,
-        travelMode: google.maps.TravelMode.WALKING
-      }, function(result, status) {
-        var dirDisp = new google.maps.DirectionsRenderer({
-          map: map
-        })
-        dirDisp.setDirections(result)
-      });
-	
-}
-
-
-
-

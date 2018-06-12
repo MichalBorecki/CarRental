@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pl.coderslab.carrental.bean.LoginData;
 import pl.coderslab.carrental.bean.SessionManager;
+import pl.coderslab.carrental.entity.Rent;
 import pl.coderslab.carrental.entity.User;
+import pl.coderslab.carrental.repository.RentRepository;
 import pl.coderslab.carrental.repository.UserRepository;
 
 @Controller
@@ -32,6 +34,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private RentRepository rentRepo;
 
 	/*
 	 * Register
@@ -74,8 +79,10 @@ public class UserController {
 			 * set user to session attribute
 			 */
 			HttpSession ses = SessionManager.session();
-			ses.setAttribute("user", user);
-
+			ses.setAttribute("user", user);	
+			if (user.getId() == 1) {
+				return "redirect:/car/all";
+			}
 			redAttr.addFlashAttribute("message", "You are logged!");
 			return "redirect:/";
 		}
@@ -113,6 +120,9 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	/*
+	 * Activate user
+	 */
 	@PostMapping("/activate")
 	public String changeStatus(@ModelAttribute User user, Model model) {
 
@@ -122,12 +132,20 @@ public class UserController {
 	}
 
 	/*
-	 * Show user by ID
+	 * Show all informations about user (by ID)
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/info/{id}")
 	public String showUserById(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
 		model.addAttribute("user", user);
+		
+		
+		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
+		
+		
+		Rent rent = rentRepo.findRentByUserIdWhereEndIsNull(user.getId());
+		model.addAttribute("rent", rent);	
+		
 		return "user/showUser";
 	}
 

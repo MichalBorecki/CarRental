@@ -88,6 +88,11 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>raphael</artifactId>
+			<version>2.2.7</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>CarRental</finalName>

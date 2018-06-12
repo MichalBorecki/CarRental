@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,10 +38,10 @@ public class Message {
 	@DateTimeFormat
 	private Date created;
 
-	@ManyToOne/*(fetch = FetchType.EAGER)*/
+	@ManyToOne
 	private User user;
-	
-	@ManyToOne/*(fetch = FetchType.EAGER)*/
+
+	@ManyToOne
 	private User receiver;
 
 	@NotNull
@@ -114,7 +113,5 @@ public class Message {
 		return String.format("Message [id=%s, messageText=%s, created=%s, user=%s, receiver=%s, urgent=%s, ifRead=%s]",
 			id, messageText, created, user, receiver, urgent, ifRead);
 	}
-
-
 
 }

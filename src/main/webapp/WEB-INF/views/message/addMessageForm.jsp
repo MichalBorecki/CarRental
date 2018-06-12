@@ -27,9 +27,10 @@
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<form:textarea class="form-control is-valid" path="messageText" rows="5" id="messageText" type="text"
-									name="messageText" required="true" />
-								<form:errors path="messageText" cssClass="valid-feedback" />
+									name="messageText" required="true"/>
+								<form:errors path="messageText" cssClass="valid-feedback"  value="${message.messageText }"/>
 
+								<form:hidden path="id" name="id" value="${message.id }" />
 								<form:hidden path="user" name="user" value="${user.id }" />
 								<form:hidden path="receiver" name="receiver" value="${message.receiver.id }" />
 							</div>

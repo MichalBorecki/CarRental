@@ -45,7 +45,7 @@ public class LoggedInCheckFilter extends OncePerRequestFilter {
 
 	
 	/*
-	 * allowed url's for not logged users (+ get from resources)
+	 * Allowed url's for not logged users (+ get from resources)
 	 */
 	private boolean allowedToEveryone(final String url) {
 		if (url.endsWith("/user/register") || url.endsWith("/user/login") || url.endsWith("/") || url.contains("resources")) {

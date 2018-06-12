@@ -16,20 +16,19 @@
 			<div class="col-md-12 ">
 
 				<div class="container-box-child">
-					<h5>Samochody do wypożyczenia:</h5>
+					<h5>Lokalizacja wolnych samochodów</h5>
 				</div>
 
 				<div id="map"></div>
 			</div>
 		</div>
 	</div>
+	<script src="<c:url value ='/resources/js/map-admin.js'></c:url>"></script>
 	<%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
-
-	<script src="<c:url value ='/resources/js/map-google.js'></c:url>"></script>
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz4rXsfTPzzbKSAkSMcsQtu_myTBLGDs0&libraries=geometry&callback=initMap">
-		
-	</script>
+	
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz4rXsfTPzzbKSAkSMcsQtu_myTBLGDs0&callback=initMap">
+</script>
 
 </body>
 </html>

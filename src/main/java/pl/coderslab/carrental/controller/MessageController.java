@@ -25,96 +25,107 @@ import pl.coderslab.carrental.repository.UserRepository;
 @RequestMapping("/message")
 public class MessageController {
 
-	@Autowired 
+	@Autowired
 	private UserRepository userRepo;
-	@Autowired 
+	@Autowired
 	private MessageRepository messageRepo;
-	
-	// Add message to admin
+
+	/*
+	 * Add message to admin
+	 */
 	@GetMapping("/add")
 	public String form(Model model, HttpServletRequest request) {
 		Message message = new Message();
 
-		// Message will be send to admin to we have to set receiver as admin
+		// Message will be send to admin so we have to set receiver as admin
 		User admin = userRepo.findOne((long) 1);
 		message.setReceiver(admin);
-		
+
 		model.addAttribute("message", message);
 		request.setAttribute("msg", "CarRental");
 		return "message/addMessageForm";
 	}
-	
+
 	@PostMapping("/add")
-	public String formPost(@Valid Message message, BindingResult result) {
+	public String formPost(@Valid Message message, BindingResult result, Model model) {
 		System.out.println(message);
 		if (result.hasErrors()) {
 			return "message/addMessageForm";
+		}
+		/*
+		 * If user is Admin, then redirect to Admin list of messages
+		 */
+		if (message.getUser().getId() == 1) {
+			return "redirect:/message/adminlist/2";
 		}
 		messageRepo.save(message);
 		return "redirect:/message/all";
 	}
 
-	
-	
-	// Add message to user of this ID
+	/*
+	 * Add message to user of this ID
+	 */
 	@GetMapping("/add/{userId}")
 	public String formAddMessageToUser(@PathVariable long userId, Model model, HttpServletRequest request) {
 		Message message = new Message();
-		
+
 		User receiver = userRepo.findUserById(userId);
 		request.setAttribute("msg", receiver.getFullName());
 		message.setReceiver(receiver);
-		
+
 		model.addAttribute("message", message);
 		return "message/addMessageForm";
 	}
-	
-	
-	
-	// All messages sent and received by this user
+
+	/*
+	 * All messages sent and received by this user
+	 */
 	@GetMapping("/all")
 	public String findAll(Model model, HttpServletRequest request) {
-		
+
 		HttpSession sess = request.getSession();
 		User user = (User) sess.getAttribute("user");
-		
+
 		List<Message> messages = messageRepo.findAllByUserIdOrReceiverId(user.getId());
-		
+
 		model.addAttribute("messages", messages);
 
-//		// When ifRead is false and message was sent by user, then change for true
-//		for (Message message : messages) {
-//			if (message.getReceiver().getId() == (user.getId()) && message.isIfRead() == false) {
-//				message.setIfRead(true);
-//				messageRepo.save(message);
-//			}
-//		}
-		
+		// TODO
+		// // When ifRead is false and message was sent by user, then change for true
+		// for (Message message : messages) {
+		// if (message.getReceiver().getId() == (user.getId()) && message.isIfRead() ==
+		// false) {
+		// message.setIfRead(true);
+		// messageRepo.save(message);
+		// }
+		// }
+
 		return "message/listMessage";
 	}
-	
-	// allSendToUserId
-	@GetMapping("/all-sent/{senderId}")
-	public String findAllBySenderId(@PathVariable long senderId, Model model) {
-		model.addAttribute("messages",messageRepo.findAllByUserIdOrderByCreatedDesc(senderId));
-		return "message/listSent";
+
+	/*
+	 * All emails from admin to this user
+	 */
+	@GetMapping("/adminlist/{userId}")
+	public String findAllMsgBetweenAdminAndUser(@PathVariable long userId, Model model) {
+		List<Message> messages = messageRepo.findAllByUserIdOrReceiverId(userId);
+		User sender = userRepo.findOne(userId);
+		model.addAttribute("sender", sender);
+		model.addAttribute("messages", messages);
+		return "message/listMessageAdmin";
 	}
 
-	
-
-	// model
+	/*
+	 * Model
+	 */
 	@ModelAttribute("messages")
 	public List<Message> getMessages() {
 		return this.messageRepo.findAll();
 	}
-	
+
 	@ModelAttribute("users")
 	public List<User> getUsers() {
 		return this.userRepo.findAll();
 	}
 
-
-	
 }
-
-
