@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -22,12 +24,15 @@ public class User {
 	
 	@NotBlank
 	@Column(unique = true)
+	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{1,45})", message="Nazwa użytkownika powinna składać się z liter lub cyfr i mieć od 2 do 30 znaków")
 	private String userName;
 	
 	@NotBlank
+	@Size(min=2, max=30, message="Imię powinno mieć od 2 do 30 znaków")
 	private String firstName;
 	
 	@NotBlank
+	@Size(min=2, max=30, message="Nazwisko powinno mieć od 2 do 30 znaków")
 	private String lastName;
 	
 	@NotBlank
@@ -36,7 +41,10 @@ public class User {
 	private String email;
 	
 	@NotEmpty
+	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20})", message="Hasło musi zawierać przyajmniej jedną cyfrę od 0-9, przynajmniej jedną małą literę, przynajmniej jedną dużą literę, przynajmniej jeden symbol specjalny (@#$%) i posiadać od 8 do 20 znaków.")
 	private String password;
+	
+	
 	
 	@NotNull
 	private boolean enabled;

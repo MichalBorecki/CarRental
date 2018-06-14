@@ -21,23 +21,26 @@
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">Nazwa użytkownika</label>
-								<form:input path="userName" id="userName" type="text" class="form-control is-valid" name="userName" required="true"/>
-								<form:errors path="userName" cssClass="valid-feedback"/>
+								<form:input path="userName" id="userName" type="text" class="form-control is-valid" name="userName"
+									required="true" />
+								<form:errors path="userName" cssClass="valid-feedback" />
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">Imię</label>
-								<form:input path="firstName" id="firstName" type="text" class="form-control is-valid" name="firstName" required="true"/>
+								<form:input path="firstName" id="firstName" type="text" class="form-control is-valid" name="firstName"
+									required="true" />
 								<form:errors path="firstName" cssClass="valid-feedback" />
 							</div>
 						</div>
-						
+
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">Nazwisko</label>
-								<form:input path="lastName" id="lastName" type="text" class="form-control is-valid" name="lastName" required="true" />
+								<form:input path="lastName" id="lastName" type="text" class="form-control is-valid" name="lastName"
+									required="true" />
 								<form:errors path="lastName" cssClass="valid-feedback" />
 							</div>
 						</div>
@@ -45,17 +48,23 @@
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">E-mail</label>
-								<form:input path="email" id="emailReg" type="email" class="form-control is-valid" name="email" required="true"/>
-								<form:errors path="email" cssClass="valid-feedback"/>
+								<form:input path="email" id="emailReg" type="email" class="form-control is-valid" name="email" required="true" />
+								<form:errors path="email" cssClass="valid-feedback" />
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">Hasło</label>
-								<form:password path="password" id="passwordReg" class="form-control is-valid" name="password"
-									placeholder="Hasło musi mieć od 8 do 20 liter" required="true"/>
-								<form:errors path="password" cssClass="valid-feedback"/>
+								<div class="input-group">
+									<form:password path="password" id="passwordReg" class="form-control is-valid" name="password"
+										placeholder="Hasło musi mieć od 8 do 20 liter" required="true" data-toggle="password" />
+									<div class="input-group-append">
+										<span class="input-group-text"><i id="showPass" class="fa fa-eye"></i></span>
+									</div>
+								</div>
+								<form:errors path="password" cssClass="valid-feedback" />
+
 							</div>
 						</div>
 
@@ -70,5 +79,6 @@
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
+	<script src="<c:url value ='/resources/js/password-form.js'></c:url>"></script>
 </body>
 </html>
