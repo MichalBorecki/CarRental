@@ -62,8 +62,8 @@
 									<div class="input-group-append">
 										<span class="input-group-text"><i id="showPass" class="fa fa-eye"></i></span>
 									</div>
+									<form:errors path="password" cssClass="valid-feedback" />
 								</div>
-								<form:errors path="password" cssClass="valid-feedback" />
 
 							</div>
 						</div>
