@@ -28,7 +28,7 @@ function initMap() {
 	 * ------------------- MARKERS FOR CARS -------------------
 	 */
 
-	var url = "http://localhost:8080/CarRental/";
+	var url = "http://localhost:8080/";
 	var htmlType = "GET";
 
 	/*
