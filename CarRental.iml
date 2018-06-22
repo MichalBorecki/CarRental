@@ -10,7 +10,7 @@
           <factory-entry name="entityManagerFactory" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
-      </cgit onfiguration>
+      </configuration>
     </facet>
   </component>
 </module>
