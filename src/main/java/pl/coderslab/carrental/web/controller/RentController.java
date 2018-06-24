@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.controller;
+package pl.coderslab.carrental.web.controller;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.coderslab.carrental.entity.Car;
-import pl.coderslab.carrental.entity.Rent;
-import pl.coderslab.carrental.entity.User;
-import pl.coderslab.carrental.repository.CarRepository;
-import pl.coderslab.carrental.repository.RentRepository;
-import pl.coderslab.carrental.repository.UserRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.User;
+import pl.coderslab.carrental.persistence.model.Car;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.dao.CarRepository;
+import pl.coderslab.carrental.persistence.dao.RentRepository;
 
 @Controller
 @RequestMapping("/rent")

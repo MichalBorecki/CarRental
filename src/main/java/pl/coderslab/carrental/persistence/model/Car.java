@@ -1,12 +1,6 @@
-package pl.coderslab.carrental.entity;
+package pl.coderslab.carrental.persistence.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,7 +28,7 @@ public class Car {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private User user;
 	
 	@NotNull
@@ -99,7 +93,6 @@ public class Car {
 		this.lat = lat;
 	}
 
-
 	public double getLng() {
 		return lng;
 	}
@@ -107,7 +100,6 @@ public class Car {
 	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	
 
 	@Override
 	public String toString() {
