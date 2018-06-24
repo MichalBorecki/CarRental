@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.entity;
+package pl.coderslab.carrental.persistence.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

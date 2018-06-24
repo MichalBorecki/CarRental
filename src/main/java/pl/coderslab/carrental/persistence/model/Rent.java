@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.entity;
+package pl.coderslab.carrental.persistence.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,8 +31,6 @@ public class Rent {
 	@DateTimeFormat
 	private Date start;
 
-	@Column(updatable = true)
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat
 	private Date end;
@@ -55,7 +53,6 @@ public class Rent {
 
 	private double lngEnd;
 
-	
 	public String getStart() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
 		String dateString = sdf.format(start);
@@ -79,7 +76,6 @@ public class Rent {
 		this.end = end;
 	}
 
-	
 	public long getRentTime() {
 		if (this.end.equals(null)) {
 			return 0;
@@ -134,7 +130,7 @@ public class Rent {
 	}
 
 	public double getLatEnd() {
-		// !!!! we accept the initial position for simplicity
+		// !! we accept the initial position for simplicity
 		return latEnd = this.latStart;
 	}
 
@@ -143,7 +139,7 @@ public class Rent {
 	}
 
 	public double getLngEnd() {
-		// !!!!  we accept the initial position for simplicity
+		// !!  we accept the initial position for simplicity
 		return lngEnd = this.lngStart;
 	}
 
