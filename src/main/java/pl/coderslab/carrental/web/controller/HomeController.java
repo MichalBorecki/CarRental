@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.controller;
+package pl.coderslab.carrental.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.controller;
+package pl.coderslab.carrental.web.controller;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import pl.coderslab.carrental.entity.Message;
-import pl.coderslab.carrental.entity.User;
-import pl.coderslab.carrental.repository.MessageRepository;
-import pl.coderslab.carrental.repository.UserRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.User;
+import pl.coderslab.carrental.persistence.model.Message;
+import pl.coderslab.carrental.persistence.dao.MessageRepository;
 
 @Controller
 @RequestMapping("/message")

@@ -1,4 +1,4 @@
-package pl.coderslab.carrental.controller;
+package pl.coderslab.carrental.web.controller;
 
 import java.util.List;
 
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.coderslab.carrental.entity.Car;
-import pl.coderslab.carrental.entity.Message;
-import pl.coderslab.carrental.entity.Rent;
-import pl.coderslab.carrental.entity.User;
-import pl.coderslab.carrental.repository.CarRepository;
-import pl.coderslab.carrental.repository.MessageRepository;
-import pl.coderslab.carrental.repository.RentRepository;
-import pl.coderslab.carrental.repository.UserRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.User;
+import pl.coderslab.carrental.persistence.model.Car;
+import pl.coderslab.carrental.persistence.model.Message;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.dao.CarRepository;
+import pl.coderslab.carrental.persistence.dao.MessageRepository;
+import pl.coderslab.carrental.persistence.dao.RentRepository;
 
 @Controller
 @RequestMapping("/car")
@@ -95,7 +95,7 @@ public class CarController {
 		User user = (User) sess.getAttribute("user");
 		long userId = user.getId();
 		
-		if (user.isEnabled() == false) {
+		if (user.getActive() == 0) {
 			model.addAttribute("msg", "Nie możesz wypożyczyć samochodu, Twoje konto jest zdezaktywowane!");
 			return "car/currentRented";
 		}
