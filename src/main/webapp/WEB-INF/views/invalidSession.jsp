@@ -12,8 +12,8 @@
 <%@ include file="/WEB-INF/views/jspf/navbar.jspf" %>
 
 <div class="container">
-    <h1 class="alert alert-danger" text="#{message.sessionExpired}">expired</h1>
-    <a class="btn btn-primary" href="/login" text="${label.form.loginLink}">login</a>
+    <h1 class="alert alert-danger" text="#{message.sessionExpired}">Sesja wygasła</h1>
+    <a class="btn btn-primary" href="/login" text="${label.form.loginLink}">Strona logowania</a>
 </div>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>

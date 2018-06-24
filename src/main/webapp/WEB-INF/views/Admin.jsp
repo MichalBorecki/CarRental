@@ -13,11 +13,10 @@
 
 <div class="container"><br/>
     <div class="alert alert-success">
-        <p>its working as expected</p>
         <div text="${userName}" id="scheduler"></div>
         <div text="${adminMessage}"></div>
     </div>
-    <a href="/logout" class="btn btn-info" role="button">Logout</a>
+    <a href="/logout" class="btn btn-info" role="button">Wyloguj</a>
 </div>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>

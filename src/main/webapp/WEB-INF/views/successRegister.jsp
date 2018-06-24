@@ -14,10 +14,10 @@
 <div class="container"><br/>
     <div class="alert alert-info">
         <div text="${successMessage}"></div>
-        <strong>Success!</strong> You are Ready to Login!!!
+        <strong>Sukces!</strong> Możesz się teraz zalogować.
     </div>
     <div class="alert alert-success">
-        <a href="/login" text="#{label.login}">LoginPage</a>
+        <a href="/login" text="#{label.login}">Strona logowania</a>
     </div>
 </div>
 
