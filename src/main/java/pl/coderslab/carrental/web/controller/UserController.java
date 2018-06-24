@@ -1,9 +1,8 @@
-package pl.coderslab.carrental.controller;
+package pl.coderslab.carrental.web.controller;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import pl.coderslab.carrental.bean.LoginData;
-import pl.coderslab.carrental.bean.SessionManager;
-import pl.coderslab.carrental.entity.Rent;
-import pl.coderslab.carrental.entity.User;
-import pl.coderslab.carrental.repository.RentRepository;
-import pl.coderslab.carrental.repository.UserRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.User;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.dao.RentRepository;
 
 @Controller
 @RequestMapping("/user")
@@ -38,67 +33,6 @@ public class UserController {
 	@Autowired
 	private RentRepository rentRepo;
 
-	/*
-	 * Register
-	 */
-	@GetMapping("/register")
-	public String register(Model model) {
-		model.addAttribute("user", new User());
-		return "user/register";
-	}
-
-	@PostMapping("/register")
-	public String registerPost(@Valid User user, BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			model.addAttribute("user", user);
-			return "user/register";
-		}
-		this.userRepo.save(user);
-		model.addAttribute("user", user);
-		return "redirect:/";
-
-	}
-
-	/*
-	 * Log in
-	 */
-	@GetMapping("/login")
-	public String login(Model model) {
-		model.addAttribute("loginData", new LoginData());
-		return "user/login";
-	}
-
-	@PostMapping("/login")
-	public String loginPost(@ModelAttribute LoginData loginData,
-		Model model,
-		RedirectAttributes redAttr) {
-		User user = this.userRepo.findOneByEmail(loginData.getEmail());
-
-		if (user != null && user.isPasswordCorrect(loginData.getPassword())) {
-			/*
-			 * set user to session attribute
-			 */
-			HttpSession ses = SessionManager.session();
-			ses.setAttribute("user", user);	
-			if (user.getId() == 1) {
-				return "redirect:/car/all";
-			}
-			redAttr.addFlashAttribute("message", "You are logged!");
-			return "redirect:/";
-		}
-		model.addAttribute("message", "Please enter correct data!");
-		return "user/login";
-	}
-
-	/*
-	 * Logout
-	 */
-	@GetMapping("/logout")
-	public String logout(SessionStatus status, Model model, HttpServletRequest request) {
-		status.setComplete();
-		model.addAttribute("loginData", new LoginData());
-		return "redirect:/";
-	}
 
 	/*
 	 * Update
