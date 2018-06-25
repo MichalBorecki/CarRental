@@ -25,7 +25,7 @@
 					<div class="container-box-child">
 						<h5><c:out value="${msg}" default="Aktualnie wypożyczone:" /></h5>
 					</div>
-						<form:form action="/CarRental/rent/end" method="POST" modelAttribute="rent">
+						<form:form action="/rent/end" method="POST" modelAttribute="rent">
 							<table class="table text-center table-sm table-hover table-bordered">
 							<form:input path="id" hidden="true"/>
 								<thead>

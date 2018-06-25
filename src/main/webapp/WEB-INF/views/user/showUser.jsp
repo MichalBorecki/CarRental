@@ -22,22 +22,20 @@
 				<table class="table table-hover table-bordered text-center align-middle user-info-table">
 					<thead>
 						<tr>
-							<th>Nazwa użytkownika</th>
+							<th>E-mail</th>
 							<th>Imię i nazwisko</th>
 							<th>Status konta</th>
 							<th>Akcja</th>
 						</tr>
 					</thead>
 					<tr>
-						<form:form action="/CarRental/user/activate" method="POST" modelAttribute="user">
-							<td>${user.userName}</td>
+						<form:form action="/user/activate/${user.id}" method="GET" modelAttribute="user">
+							<td>${user.email}</td>
 							<td>${user.fullName}</td>
-							<td><c:choose>
-									<c:when test="${user.enabled == false}">
-										<form:input path="enabled" hidden="enabled" value="1" />Konto nieaktywne</c:when>
-									<c:otherwise>
-										<form:input path="enabled" hidden="enabled" value="0" />Konto aktywne</c:otherwise>
-								</c:choose></td>
+							<td>
+								<c:if test="${user.active == 0}">Konto nieaktywne</c:if>
+								<c:if test="${user.active == 1}">Konto aktywne</c:if>
+							</td>
 							<td><a class="btn btn-info btn-sm btn-block" href="<c:url value='/message/add/${user.id}'></c:url>">Wyślij
 									wiadomość</a> <input class="btn btn-secondary btn-sm btn-block" type="submit" value="Aktywuj/deaktywuj konto" /></td>
 						</form:form>

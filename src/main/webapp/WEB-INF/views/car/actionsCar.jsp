@@ -38,7 +38,7 @@
 						</p>
 					</div>
 
-					<form:form action="/CarRental/rent/start" method="POST" modelAttribute="rent">
+					<form:form action="/rent/start" method="POST" modelAttribute="rent">
 						
 						<form:hidden path="user" name="user" value="${rent.user.id}" />
 						<form:hidden path="car" name="car" value="${rent.car.id }" />

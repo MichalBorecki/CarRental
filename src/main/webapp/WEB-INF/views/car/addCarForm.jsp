@@ -23,7 +23,7 @@
 						<hr>
 					</div>
 
-					<form:form action="/CarRental/car/add" method="POST" modelAttribute="car">
+					<form:form action="/car/add" method="POST" modelAttribute="car">
 
 						<div class="form-row">
 
