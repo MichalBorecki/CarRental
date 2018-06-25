@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@    taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <%@ include file="/WEB-INF/views/jspf/header.jspf" %>
-    <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="<c:url value ='/resources/js/Valid.js'></c:url>"></script>
 </head>
@@ -16,53 +12,71 @@
 
 <div class="container">
     <div class="form-row justify-content-center">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-8 col-lg-6 box-container">
             <h5>Formularz rejestracji</h5>
             <form:form action="registration" method="post" modelAttribute="userDto">
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                    <i class="fas fa-user"></i></i></span>
-                    <form:input class="form-control" path="firstName" type="text" placeholder="Imię" required="true"/></div>
-                    <form:errors path="firstName" cssClass="valid-feedback"/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <form:input class="form-control" path="firstName" type="text" placeholder="Imię"
+                                    required="true"/>
+                        <form:errors path="firstName" class="has-error"/>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-12">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                    <i class="fas fa-user"></i></i></span>
-                    <form:input class="form-control" path="lastName" type="text" placeholder="Nazwisko"
-                                required="true"/></div>
-                    <form:errors path="lastName" cssClass="valid-feedback"/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <form:input class="form-control" path="lastName" type="text" placeholder="Nazwisko"
+                                    required="true"/>
+                        <form:errors path="lastName" class="has-error" />
+                    </div>
                 </div>
 
                 <div class="form-group col-md-12">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                    <i class="fas fa-envelope"></i></i></span>
-                    <form:input class="form-control" path="email" placeholder="Adres e-mail" required="true"
-                                type="email"/></div>
-                    <form:errors path="email" cssClass="valid-feedback"/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-at"></i></span>
+                        </div>
+                        <form:input class="form-control" path="email" placeholder="Adres e-mail"
+                                    required="true"
+                                    type="email"/>
+                        <form:errors path="email" class="has-error" />
+                    </div>
                 </div>
 
                 <div class="form-group col-md-12">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                    <i class="icon-append fas fa-lock"></i></span>
-                    <form:password class="form-control" path="password" id="password" name="password"
-                                   placeholder="Hasło" required="true"/></div>
-                    <form:errors path="password" cssClass="valid-feedback"/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <form:password class="form-control" path="password" id="password" name="password"
+                                       placeholder="Hasło" required="true"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i id="showPass" class="fa fa-eye"></i></span>
+                        </div>
+                        <form:errors path="password" class="has-error" />
+                    </div>
                 </div>
 
                 <div class="form-group col-md-12">
-                    <div class="input-group-append">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
                         <span class="input-group-text">
-                    <i class="icon-append fas fa-lock"></i></span>
+                    <i class="fas fa-lock"></i></span></div>
                         <form:password class="form-control" path="matchingPassword" id="matchPassword"
                                        name="matchingPassword"
-                                       placeholder="Ponów hasło" required="true"/></div>
-                    <form:errors path="matchingPassword" cssClass="valid-feedback"/>
+                                       placeholder="Ponów hasło" required="true"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i id="showPass2" class="fa fa-eye"></i></span>
+                        </div>
+                        <form:errors path="matchingPassword" class="has-error" />
+                    </div>
                 </div>
 
                 <section>
@@ -84,6 +98,6 @@
 </div>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
-
+<script src="<c:url value ='/resources/js/password-form.js'></c:url>"></script>
 </body>
 </html>
