@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashSet;
 
-
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(accountDto.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
         user.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
+        Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
     }
