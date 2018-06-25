@@ -1,31 +1,26 @@
 package pl.coderslab.carrental.web.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import pl.coderslab.carrental.persistence.dao.UserRepository;
-import pl.coderslab.carrental.persistence.model.User;
-import pl.coderslab.carrental.persistence.model.Rent;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.carrental.component.MySessionInfo;
 import pl.coderslab.carrental.persistence.dao.RentRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.model.User;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 @SessionAttributes({ "user" })
 public class UserController {
+
+	@Autowired
+	private MySessionInfo mySessionInfo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -37,9 +32,9 @@ public class UserController {
 	/*
 	 * Update
 	 */
-	@GetMapping("/update/{id}")
-	public String updateUser(@PathVariable Long id, Model model) {
-		User user = userRepo.findOne(id);
+	@GetMapping("/update")
+	public String updateUser(Model model) {
+		User user = userRepo.findOne(mySessionInfo.getUserId());
 		model.addAttribute("user", user);
 		return "user/updateUser";
 	}
@@ -49,6 +44,7 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user/updateUser";
 		}
+		user.setId(mySessionInfo.getUserId());
 		this.userRepo.save(user);
 		model.addAttribute("user", user);
 		return "redirect:/";
@@ -57,9 +53,14 @@ public class UserController {
 	/*
 	 * Activate user
 	 */
-	@PostMapping("/activate")
-	public String changeStatus(@ModelAttribute User user, Model model) {
-
+	@GetMapping("/activate/{id}")
+	public String changeStatus(@PathVariable Long id, Model model) {
+		User user = userRepo.findOne(id);
+		if (user.getActive() == 0){
+			user.setActive(1);
+		} else if (user.getActive() == 1) {
+			user.setActive(0);
+		}
 		this.userRepo.save(user);
 		model.addAttribute("user", user);
 		return "user/showUser";
@@ -72,10 +73,8 @@ public class UserController {
 	public String showUserById(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
 		model.addAttribute("user", user);
-		
-		
+
 		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
-		
 		
 		Rent rent = rentRepo.findRentByUserIdWhereEndIsNull(user.getId());
 		model.addAttribute("rent", rent);	
@@ -95,7 +94,7 @@ public class UserController {
 	 * Find by term
 	 */
 	@GetMapping("/findterm{term}")
-	public String findByTerm(@RequestParam("term") String term, Model model, HttpServletRequest request) {
+	public String findByTerm(@RequestParam("term") String term, Model model) {
 		System.out.println(term);
 		String termCorrected = term.replace("+", " ");
 		System.out.println(termCorrected);

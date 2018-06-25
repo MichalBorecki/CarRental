@@ -1,35 +1,30 @@
 package pl.coderslab.carrental.web.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import pl.coderslab.carrental.persistence.dao.UserRepository;
-import pl.coderslab.carrental.persistence.model.User;
-import pl.coderslab.carrental.persistence.model.Car;
-import pl.coderslab.carrental.persistence.model.Message;
-import pl.coderslab.carrental.persistence.model.Rent;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.carrental.component.MySessionInfo;
 import pl.coderslab.carrental.persistence.dao.CarRepository;
 import pl.coderslab.carrental.persistence.dao.MessageRepository;
 import pl.coderslab.carrental.persistence.dao.RentRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.Car;
+import pl.coderslab.carrental.persistence.model.Message;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.model.User;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/car")
 public class CarController {
+
+	@Autowired
+	private MySessionInfo mySessionInfo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -87,12 +82,11 @@ public class CarController {
 	 * Car for rent
 	 */
 	@GetMapping("/rent/{carId}")
-	public String findCarForRent(@PathVariable String carId, Model model, HttpServletRequest request) {
+	public String findCarForRent(@PathVariable String carId, Model model) {
 		/*
 		 * Get user
 		 */
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
+		User user = mySessionInfo.getCurrentUser();
 		long userId = user.getId();
 		
 		if (user.getActive() == 0) {
