@@ -24,4 +24,13 @@ public class MySessionInfo {
         }
         return user.getId();
     }
+
+    public User getCurrentUser() {
+        if (user == null) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = userDetails.getUsername();
+            user = userRepo.findByEmail(email);
+        }
+        return user;
+    }
 }
