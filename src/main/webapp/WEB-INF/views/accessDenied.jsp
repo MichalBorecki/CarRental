@@ -14,8 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="error-template">
-                <h1>
-                    Oops!</h1>
+                <h2> Oops!</h2>
                 <h2 text="${StatusType}"></h2>
                 <h2 text="${ErrorType}"></h2>
                 <h2 text="${TraceType}"></h2>
@@ -23,10 +22,6 @@
                 <h2 text="${TimeStamp}"></h2>
                 <div class="error-details">
                     Błąd, przepraszamy!
-                </div>
-                <div class="error-actions">
-                    <a href="/login" class="btn btn-primary btn-lg"><span
-                            class="fas fa-home"></span>Logowanie </a>
                 </div>
             </div>
         </div>
