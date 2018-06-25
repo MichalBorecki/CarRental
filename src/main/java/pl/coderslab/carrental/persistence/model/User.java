@@ -1,12 +1,7 @@
 package pl.coderslab.carrental.persistence.model;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import pl.coderslab.carrental.validator.ValidEmail;
-
 import javax.persistence.*;
 import java.util.Set;
-
 
 @Entity
 @Table(name = "user")
@@ -15,21 +10,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private int id;
+    private long id;
 
-    @ValidEmail(message = "*Proszę wpisać e-mail")
-    @NotEmpty(message = "*Proszę wpisać e-mail")
     private String email;
 
-    @Length(min = 8, message = "*Hasło musi mieć przynajmniej 8 znaków")
-    @NotEmpty(message = "*Proszę wpisać hasło")
-    //@Transient
     private String password;
 
-    @NotEmpty(message = "*Proszę wpisać imię")
     private String name;
 
-    @NotEmpty(message = "*Proszę wpisać nazwisko")
     private String lastName;
 
     private int active;
@@ -38,11 +26,11 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -66,7 +54,9 @@ public class User {
         return lastName;
     }
 
-    public String getFullName() { return name + " " + lastName;}
+    public String getFullName() {
+        return this.name + " " + this.lastName;
+    }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;

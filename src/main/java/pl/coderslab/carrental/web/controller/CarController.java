@@ -1,35 +1,32 @@
 package pl.coderslab.carrental.web.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import pl.coderslab.carrental.persistence.dao.UserRepository;
-import pl.coderslab.carrental.persistence.model.User;
-import pl.coderslab.carrental.persistence.model.Car;
-import pl.coderslab.carrental.persistence.model.Message;
-import pl.coderslab.carrental.persistence.model.Rent;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.carrental.component.MySessionInfo;
 import pl.coderslab.carrental.persistence.dao.CarRepository;
 import pl.coderslab.carrental.persistence.dao.MessageRepository;
 import pl.coderslab.carrental.persistence.dao.RentRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.Car;
+import pl.coderslab.carrental.persistence.model.Message;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.model.User;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/car")
 public class CarController {
+
+	@Autowired
+	private MySessionInfo mySessionInfo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -46,6 +43,7 @@ public class CarController {
 	/*
 	 * Add
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/add")
 	public String form(Model model) {
 		Car car = new Car();
@@ -65,6 +63,7 @@ public class CarController {
 	/*
 	 * Update
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/update/{carId}")
 	public String form(@PathVariable long carId, Model model, HttpServletRequest request) {
 		Car car = carRepo.findOne(carId);
@@ -76,6 +75,7 @@ public class CarController {
 	/*
 	 * Delete
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/delete/{carId}")
 	public String form(@PathVariable long carId) {
 		Car car = carRepo.findOne(carId);
@@ -87,12 +87,11 @@ public class CarController {
 	 * Car for rent
 	 */
 	@GetMapping("/rent/{carId}")
-	public String findCarForRent(@PathVariable String carId, Model model, HttpServletRequest request) {
+	public String findCarForRent(@PathVariable String carId, Model model) {
 		/*
 		 * Get user
 		 */
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
+		User user = mySessionInfo.getCurrentUser();
 		long userId = user.getId();
 		
 		if (user.getActive() == 0) {
@@ -128,6 +127,7 @@ public class CarController {
 	/*
 	 * All cars that are free
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/allfree")
 	public String findAllFree(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findByUserIsNull());
@@ -138,6 +138,7 @@ public class CarController {
 	/*
 	 * All cars that are free on map - Admin view
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/mapAdmin")
 	public String showFreeCarsOnMap() {
 		return "car/mapFreeCarsAdmin";
@@ -146,6 +147,7 @@ public class CarController {
 	/*
 	 * Set car for service, redirect to add message to repairMan
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/service/{carId}")
 	public String callServiceToCar(Model model, @RequestParam String lat, @RequestParam String lng,
 		@PathVariable long carId) {
@@ -195,6 +197,7 @@ public class CarController {
 	/*
 	 * All cars rented
 	 */
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/allrented")
 	public String findAllRented(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findByUserIsNotNull());
@@ -205,6 +208,7 @@ public class CarController {
 	/*
 	 * All cars
 	 */
+    @Secured({"ROLE_ADMIN", "ADMIN"})
 	@GetMapping("/all")
 	public String findAll(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findAll());

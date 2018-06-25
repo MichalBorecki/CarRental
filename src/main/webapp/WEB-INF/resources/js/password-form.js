@@ -1,7 +1,15 @@
 $( "#showPass" )
   .mouseup(function() {
-    $("#passwordReg").attr('type','password');
+    $("#password").attr('type','password');
   })
   .mousedown(function() {
-    $("#passwordReg").attr('type','text');
+    $("#password").attr('type','text');
   });
+
+$( "#showPass2" )
+    .mouseup(function() {
+        $("#matchPassword").attr('type','password');
+    })
+    .mousedown(function() {
+        $("#matchPassword").attr('type','text');
+    });

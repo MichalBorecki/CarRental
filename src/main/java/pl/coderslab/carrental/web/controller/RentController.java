@@ -1,35 +1,30 @@
 package pl.coderslab.carrental.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.carrental.component.MySessionInfo;
+import pl.coderslab.carrental.persistence.dao.CarRepository;
+import pl.coderslab.carrental.persistence.dao.RentRepository;
+import pl.coderslab.carrental.persistence.dao.UserRepository;
+import pl.coderslab.carrental.persistence.model.Car;
+import pl.coderslab.carrental.persistence.model.Rent;
+import pl.coderslab.carrental.persistence.model.User;
+
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import pl.coderslab.carrental.persistence.dao.UserRepository;
-import pl.coderslab.carrental.persistence.model.User;
-import pl.coderslab.carrental.persistence.model.Car;
-import pl.coderslab.carrental.persistence.model.Rent;
-import pl.coderslab.carrental.persistence.dao.CarRepository;
-import pl.coderslab.carrental.persistence.dao.RentRepository;
-
 @Controller
 @RequestMapping("/rent")
 public class RentController {
+
+	@Autowired
+	private MySessionInfo mySessionInfo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -67,7 +62,7 @@ public class RentController {
 	}
 
 	@PostMapping("/end")
-	public String form(@RequestParam String id, Model model, HttpServletRequest request) {
+	public String form(@RequestParam String id, Model model) {
 		long rentId = Long.parseLong(id);
 		Rent rentForEnd = rentRepo.findOne(rentId);
 		System.out.println(rentForEnd);
@@ -78,9 +73,8 @@ public class RentController {
 		Date date = convertToDateViaSqlTimestamp(now);
 		rentForEnd.setEnd(date);
 
-
 		/*
-		 *  for simplicity check rent time and set distance as one minute is 500 m
+		 *  For simplicity check rent time and set distance as one minute is 500 m
 		 *  distance covered (low average speed in big city like Wrocław)
 		 */
 		long rentTime = rentForEnd.getRentTime();
@@ -105,8 +99,9 @@ public class RentController {
 	/*
 	 * All rents
 	 */
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/all")
-	public String findAllFree(Model model, HttpServletRequest request) {
+	public String findAllFree(Model model) {
 		model.addAttribute("rents", rentRepo.findAllWhereEndIsNotNull());
 		return "rent/listRent";
 	}
@@ -115,12 +110,9 @@ public class RentController {
 	 * All rents by userId
 	 */
 	@GetMapping("/all/user")
-	public String findAllRentedByUserId(Model model, HttpServletRequest request) {
+	public String findAllRentedByUserId(Model model) {
 
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
-
-		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
+		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(mySessionInfo.getUserId()));
 		return "rent/listRent";
 	}
 	
@@ -128,22 +120,18 @@ public class RentController {
 	 * All rents by userId, redirect to charges view
 	 */
 	@GetMapping("/charges")
-	public String findAllRentedByUserIdForChargesView(Model model, HttpServletRequest request) {
-
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
-
-		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(user.getId()));
+	public String findAllRentedByUserIdForChargesView(Model model) {
+		model.addAttribute("rents", rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(mySessionInfo.getUserId()));
 		return "rent/chargesRent";
 	}
 	
 	/*
 	 * All rents by userId (for ajax)
 	 */
-	@GetMapping("/all/userInfoChart/{id}")
+	@GetMapping("/all/userInfoChart")
 	@ResponseBody
-	public List<Rent> findAllRentedByUserId(@PathVariable long id, Model model, HttpServletRequest request) {
-		List<Rent> list = rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(id);
+	public List<Rent> findAllRentedByUserId() {
+		List<Rent> list = rentRepo.findAllByUserIdWhereEndIsNotNullOrderByStart(mySessionInfo.getUserId());
 		return list;
 	}
 
@@ -151,15 +139,13 @@ public class RentController {
 	 * Find current rental by user
 	 */
 	@GetMapping("/current")
-	public String findRentByUserId(Model model, HttpServletRequest request) {
+	public String findRentByUserId(Model model) {
 
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
-
-		Rent rent = rentRepo.findRentByUserIdWhereEndIsNull(user.getId());
+		Rent rent = rentRepo.findRentByUserIdWhereEndIsNull(mySessionInfo.getUserId());
 		model.addAttribute("rent", rent);
 		return "car/currentRented";
 	}
+
 
 	/*
 	 * Model

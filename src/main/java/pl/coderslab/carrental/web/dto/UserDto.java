@@ -32,6 +32,7 @@ public class UserDto implements Serializable {
     private String email;
 
     private boolean isUsing2FA;
+
     private Integer role;
 
     public String getEmail() {

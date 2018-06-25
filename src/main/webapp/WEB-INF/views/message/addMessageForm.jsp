@@ -22,7 +22,7 @@
 						Wyślij wiadomość do <b>${msg }</b>
 					</div>
 
-					<form:form action="/CarRental/message/add" method="POST" modelAttribute="message">
+					<form:form action="/message/add" method="POST" modelAttribute="message">
 
 						<div class="form-row">
 							<div class="form-group col-md-12">

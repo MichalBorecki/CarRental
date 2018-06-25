@@ -16,22 +16,13 @@
 			<div class="form-group col-md-6">
 
 				<div class="container-box-child">
-					<form:form action="/CarRental/user/update" method="post" modelAttribute="user">
-
-						<div class="form-row">
-							<div class="form-group col-md-12">
-								<label for="email">Username</label>
-								<form:input path="userName" id="userName" type="text" class="form-control is-valid" name="userName" readonly="true"/>
-								<form:errors path="userName" cssClass="valid-feedback"/>
-								<form:input path="id" hidden="true" value="${user.id }"/>
-							</div>
-						</div>
+					<form:form action="/user/update" method="post" modelAttribute="user">
 
 						<div class="form-row">
 							<div class="form-group col-md-12">
 								<label for="email">First name</label>
-								<form:input path="firstName" id="firstName" type="text" class="form-control is-valid" name="firstName" required="true"/>
-								<form:errors path="firstName" cssClass="valid-feedback" />
+								<form:input path="name" id="name" type="text" class="form-control is-valid" name="name" required="true"/>
+								<form:errors path="name" cssClass="valid-feedback" />
 							</div>
 						</div>
 						
@@ -48,15 +39,6 @@
 								<label for="email">Email</label>
 								<form:input path="email" id="emailReg" type="email" class="form-control is-valid" name="email" required="true"/>
 								<form:errors path="email" cssClass="valid-feedback"/>
-							</div>
-						</div>
-
-						<div class="form-row">
-							<div class="form-group col-md-12">
-								<label for="email">Password</label>
-								<form:password path="password" id="passwordReg" class="form-control is-valid" name="password"
-									placeholder="Password must be 8-20 characters long." required="true"/>
-								<form:errors path="password" cssClass="valid-feedback"/>
 							</div>
 						</div>
 
