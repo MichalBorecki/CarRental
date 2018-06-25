@@ -1,7 +1,6 @@
 package pl.coderslab.carrental.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +54,7 @@ public class UserController {
 	/*
 	 * Activate user
 	 */
-    @Secured("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/activate/{id}")
 	public String changeStatus(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
@@ -72,7 +71,7 @@ public class UserController {
 	/*
 	 * Show all informations about user (by ID)
 	 */
-    @Secured("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/info/{id}")
 	public String showUserById(@PathVariable Long id, Model model) {
 		User user = userRepo.findOne(id);
@@ -89,7 +88,7 @@ public class UserController {
 	/*
 	 * Find form
 	 */
-    @Secured("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/find")
 	public String findForm(Model model) {
 		return "user/findUser";
@@ -98,7 +97,7 @@ public class UserController {
 	/*
 	 * Find by term
 	 */
-    @Secured("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/findterm{term}")
 	public String findByTerm(@RequestParam("term") String term, Model model) {
 		System.out.println(term);
