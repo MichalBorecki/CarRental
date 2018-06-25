@@ -1,123 +1,148 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ page session="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ page session="true" %>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-	<div class="container">
+    <div class="container">
 
-		<!-- Text logo -->
-		<a class="navbar-brand" href="<c:url value='/'></c:url>"><img src="<c:url value ='/resources/images/logo.png'></c:url>" />
-		</a>
+        <!-- Text logo -->
+        <a class="navbar-brand" href="<c:url value='/'></c:url>"><img
+                src="<c:url value ='/resources/images/logo.png'></c:url>"/>
+        </a>
 
-		<!-- Toggle navigation -->
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+        <!-- Toggle navigation -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<!-- Collapsing navbar buttons -->
-		<div class="collapse navbar-collapse  w-100" id="collapsingNavbar">
-			<c:choose>
+        <!-- Collapsing navbar buttons -->
+        <div class="collapse navbar-collapse  w-100" id="collapsingNavbar">
 
-				<c:when
-					test="${(sessionScope.user == null) or (pageContext.request.requestURI.endsWith('/register.jsp')) or (sessionScope.user.id == 0)}">
+            <sec:authorize access="!hasAuthority('ADMIN') or !hasAuthority('USER')">
+            <!-- Login/register -->
+                <ul class="navbar-nav w-100 justify-content-end">
+                    <li class="nav-item"><a class="btn btn-outline-secondary nav-link"
+                                            href="<c:url value='/registration'></c:url>">Rejestracja <i class="fas fa-user-plus"></i>
+                    </a></li>
+                    <li class="nav-item"><a class="btn btn-outline-secondary nav-link"
+                                            href="<c:url value='/login'></c:url>">Logowanie <i class="fas fa-sign-in-alt"></i>
+                    </a></li>
+                </ul>
+            </sec:authorize>
 
-					<!-- Login/register -->
-					<ul class="navbar-nav w-100 justify-content-end">
-						<li class="nav-item"><a class="btn btn-outline-secondary nav-link"
-							href="<c:url value='/user/register'></c:url>">Rejestracja <i class="fas fa-user-plus"></i>
-						</a></li>
-						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" href="<c:url value='/user/login'></c:url>">Logowanie
-								<i class="fas fa-sign-in-alt"></i>
-						</a></li>
-					</ul>
+            <!-- Admin menu -->
+            <sec:authorize access="hasAuthority('ADMIN')">
 
-				</c:when>
+                <ul class="navbar-nav w-100 justify-content-end">
+                    <!-- Map button -->
+                    <li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Mapa"
+                                            href="<c:url value='/car/mapAdmin'></c:url>"> <i
+                            class="fas fa-map"></i><span class="sr-only">Mapa</span>
+                    </a></li>
+                    <!-- User menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Moje konto"
+                                                     href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"> <i
+                            class="fas fa-user"></i>
+                    </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<c:url value='/user/update'></c:url>">
+                                Zaktualizuj dane </a>
+                            <!-- Logout -->
+                            <a class="dropdown-item" href="<c:url value='/logout'></c:url>"> Wyloguj <i
+                                    class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <!-- Car menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Auto" href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"><i
+                            class="fas fa-car"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<c:url value='/car/add'></c:url>">Dodaj auto</a> <a
+                                class="dropdown-item"
+                                href="<c:url value='/car/all'></c:url>">Wszystkie samochody</a> <a class="dropdown-item"
+                                                                                                   href="<c:url value='/car/allfree'></c:url>">Lista
+                            wolnych samochodów</a> <a class="dropdown-item"
+                                                      href="<c:url value='/car/allrented'></c:url>">Lista wypożyczonych
+                            samochodów</a> <a class="dropdown-item"
+                                              href="<c:url value='/rent/all'></c:url>">Historia wypożyczeń</a>
+                        </div>
+                    </li>
+                    <!-- Users menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Użytkownicy"
+                                                     href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"><i
+                            class="fas fa-users"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<c:url value='/user/find'></c:url>">Szukaj użytkownika</a>
+                            <a class="dropdown-item" href="<c:url value='/user/findterm?term=Serwisant'></c:url>">Serwis
+                                samochodowy</a>
+                        </div>
+                    </li>
+                </ul>
+            </sec:authorize>
 
-				<c:when test="${sessionScope.user.id == 1}">
 
-					<!-- Admin menu -->
-					<ul class="navbar-nav w-100 justify-content-end">
-						<!-- Map button -->
-						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Mapa"
-							href="<c:url value='/car/mapAdmin'></c:url>"> <i class="fas fa-map"></i><span class="sr-only">Mapa</span>
-						</a></li>
-						<!-- User menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Moje konto" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-								class="fas fa-user"></i>
-						</a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/user/update/${user.id }'></c:url>"> Zaktualizuj dane </a>
-								<!-- Logout -->
-								<a class="dropdown-item" href="<c:url value='/user/logout'></c:url>"> Wyloguj <i class="fas fa-sign-out-alt"></i>
-								</a>
-							</div></li>
-						<!-- Car menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Auto" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-								class="fas fa-car"></i></a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/car/add'></c:url>">Dodaj auto</a> <a class="dropdown-item"
-									href="<c:url value='/car/all'></c:url>">Wszystkie samochody</a> <a class="dropdown-item"
-									href="<c:url value='/car/allfree'></c:url>">Lista wolnych samochodów</a> <a class="dropdown-item"
-									href="<c:url value='/car/allrented'></c:url>">Lista wypożyczonych samochodów</a> <a class="dropdown-item"
-									href="<c:url value='/rent/all'></c:url>">Historia wypożyczeń</a>
-							</div></li>
-						<!-- Users menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Użytkownicy" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i></a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/user/find'></c:url>">Szukaj użytkownika</a>
-								<a class="dropdown-item" href="<c:url value='/user/findterm?term=Serwisant'></c:url>">Serwis samochodowy</a>
-							</div></li>
-					</ul>
+            <!-- User menu -->
+            <sec:authorize access="hasAuthority('USER')">
 
-				</c:when>
+                <ul class="navbar-nav w-100 justify-content-end">
+                    <!-- Home button -->
+                    <li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Strona główna"
+                                            href="<c:url value='/'></c:url>"> <i class="fas fa-home"></i><span
+                            class="sr-only">Strona główna</span>
+                    </a></li>
+                    <!-- User menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Moje konto"
+                                                     href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"> <i
+                            class="fas fa-user"></i>
+                    </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<c:url value='/user/update'></c:url>">
+                                Zaktualizuj dane </a> <a
+                                class="dropdown-item" href="<c:url value='/rent/charges'></c:url>">Opłaty i
+                            statystyka </a>
+                            <!-- Logout -->
+                            <a class="dropdown-item" href="<c:url value='/logout'></c:url>"> Wyloguj <i
+                                    class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <!-- Car menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Auto" href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"><i
+                            class="fas fa-car"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
-				<c:otherwise>
-					<!-- User menu -->
-					<ul class="navbar-nav w-100 justify-content-end">
-						<!-- Home button -->
-						<li class="nav-item"><a class="btn btn-outline-secondary nav-link" title="Strona główna"
-							href="<c:url value='/'></c:url>"> <i class="fas fa-home"></i><span class="sr-only">Strona główna</span>
-						</a></li>
-						<!-- User menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Moje konto" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-								class="fas fa-user"></i>
-						</a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/user/update/${user.id }'></c:url>"> Zaktualizuj dane </a>  <a
-									class="dropdown-item" href="<c:url value='/rent/charges'></c:url>">Opłaty i statystyka </a>
-								<!-- Logout -->
-								<a class="dropdown-item" href="<c:url value='/user/logout'></c:url>"> Wyloguj <i class="fas fa-sign-out-alt"></i>
-								</a>
-							</div></li>
-						<!-- Car menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Auto" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-								class="fas fa-car"></i></a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-
-								<a class="dropdown-item" href="<c:url value='/rent/current'></c:url>">Obecnie wypożyczony</a> <a
-									class="dropdown-item" href="<c:url value='/rent/all/user'></c:url>">Historia wypożyczeń</a>
-							</div></li>
-						<!-- Message menu -->
-						<li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Wiadomości" href="#"
-							id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-								class="fas fa-envelope"></i></a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<c:url value='/message/add'></c:url>">Wyślij wiadomość</a> <a
-									class="dropdown-item" href="<c:url value='/message/all'></c:url>">Wiadomości</a>
-							</div></li>
-					</ul>
-				</c:otherwise>
-
-			</c:choose>
-
-		</div>
-	</div>
+                            <a class="dropdown-item" href="<c:url value='/rent/current'></c:url>">Obecnie
+                                wypożyczony</a> <a
+                                class="dropdown-item" href="<c:url value='/rent/all/user'></c:url>">Historia
+                            wypożyczeń</a>
+                        </div>
+                    </li>
+                    <!-- Message menu -->
+                    <li class="nav-item dropdown"><a class="btn btn-outline-secondary nav-link" title="Wiadomości"
+                                                     href="#"
+                                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                     aria-haspopup="true" aria-expanded="false"><i
+                            class="fas fa-envelope"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<c:url value='/message/add'></c:url>">Wyślij wiadomość</a> <a
+                                class="dropdown-item" href="<c:url value='/message/all'></c:url>">Wiadomości</a>
+                        </div>
+                    </li>
+                </ul>
+            </sec:authorize>
+        </div>
+    </div>
 </nav>
