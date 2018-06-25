@@ -30,7 +30,7 @@ public class AdminController {
 
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Witaj " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Zawartość strony widoczna tylko dla użytkownika o roli ADMIN");
+        modelAndView.addObject("adminMessage", "Zawartość stron dla administratora");
         modelAndView.setViewName("admin");
         return modelAndView;
     }
