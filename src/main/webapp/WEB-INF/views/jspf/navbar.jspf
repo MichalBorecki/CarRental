@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
-<%@ page session="true" %>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -21,8 +20,10 @@
         <!-- Collapsing navbar buttons -->
         <div class="collapse navbar-collapse  w-100" id="collapsingNavbar">
 
-            <sec:authorize access="!hasAuthority('ADMIN') or !hasAuthority('USER')">
-            <!-- Login/register -->
+
+            <!-- Menu for not logged -->
+            <sec:authorize access="!hasAuthority('ADMIN') and !hasAuthority('USER')">
+
                 <ul class="navbar-nav w-100 justify-content-end">
                     <li class="nav-item"><a class="btn btn-outline-secondary nav-link"
                                             href="<c:url value='/registration'></c:url>">Rejestracja <i class="fas fa-user-plus"></i>
@@ -32,6 +33,7 @@
                     </a></li>
                 </ul>
             </sec:authorize>
+
 
             <!-- Admin menu -->
             <sec:authorize access="hasAuthority('ADMIN')">
