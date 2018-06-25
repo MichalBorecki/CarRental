@@ -8,10 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import pl.coderslab.carrental.captcha.ICaptchaService;
 import pl.coderslab.carrental.persistence.model.User;
 import pl.coderslab.carrental.service.UserService;
 import pl.coderslab.carrental.web.dto.UserDto;
-import pl.coderslab.carrental.captcha.ICaptchaService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -39,14 +39,14 @@ public class RegistrationController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid final UserDto accountDto, BindingResult bindingResult, final HttpServletRequest request) {
 
-        final String response = request.getParameter("g-recaptcha-response");
+//        final String response = request.getParameter("g-recaptcha-response");
         ModelAndView modelAndView = new ModelAndView();
         System.out.println(accountDto.toString());
-        try {
-            captchaService.processResponse(response);
-        } catch (NullPointerException e) {
-            modelAndView.setViewName("registration");
-        }
+//        try {
+//            captchaService.processResponse(response);
+//        } catch (NullPointerException e) {
+//            modelAndView.setViewName("registration");
+//        }
 
 
         User userExists = userService.findUserByEmail(accountDto.getEmail());
