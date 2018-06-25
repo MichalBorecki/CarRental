@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.coderslab.carrental.security.MySimpleUrlAuthenticationSuccessHandler;
 import pl.coderslab.carrental.security.SecurityWebApplicationInitializer;
+import pl.coderslab.carrental.web.monitoring.SessionListenerWithMetrics;
 
 import java.util.Locale;
 
@@ -31,7 +33,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/", "/WEB-INF/resources/");
-        //registry.addResourceHandler("/resources/**").addResourceLocations("/", "/resources/");
         registry.addResourceHandler("/webapp/**").addResourceLocations("/webapp/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
     }
@@ -51,7 +52,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/admin").setViewName("admin");
         registry.addViewController("/invalidSession").setViewName("invalidSession");
-        registry.addViewController("/results").setViewName("results");
         registry.addViewController("/successRegister").setViewName("successRegister");
         registry.addViewController("/accessDenied").setViewName("accessDenied");
     }
@@ -67,10 +67,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return bCryptPasswordEncoder;
     }
 
-   /* @Bean
+    @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new SessionListenerWithMetrics();
-    }*/
+    }
 
     @Bean
     public ServletContextInitializer httpSessionContext() {
