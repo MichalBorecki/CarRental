@@ -1,6 +1,7 @@
 package pl.coderslab.carrental.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +42,7 @@ public class CarController {
 	/*
 	 * Add
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/add")
 	public String form(Model model) {
 		Car car = new Car();
@@ -60,6 +62,7 @@ public class CarController {
 	/*
 	 * Update
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/update/{carId}")
 	public String form(@PathVariable long carId, Model model, HttpServletRequest request) {
 		Car car = carRepo.findOne(carId);
@@ -71,6 +74,7 @@ public class CarController {
 	/*
 	 * Delete
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/delete/{carId}")
 	public String form(@PathVariable long carId) {
 		Car car = carRepo.findOne(carId);
@@ -122,6 +126,7 @@ public class CarController {
 	/*
 	 * All cars that are free
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/allfree")
 	public String findAllFree(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findByUserIsNull());
@@ -132,6 +137,7 @@ public class CarController {
 	/*
 	 * All cars that are free on map - Admin view
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/mapAdmin")
 	public String showFreeCarsOnMap() {
 		return "car/mapFreeCarsAdmin";
@@ -140,6 +146,7 @@ public class CarController {
 	/*
 	 * Set car for service, redirect to add message to repairMan
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/service/{carId}")
 	public String callServiceToCar(Model model, @RequestParam String lat, @RequestParam String lng,
 		@PathVariable long carId) {
@@ -189,6 +196,7 @@ public class CarController {
 	/*
 	 * All cars rented
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/allrented")
 	public String findAllRented(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findByUserIsNotNull());
@@ -199,6 +207,7 @@ public class CarController {
 	/*
 	 * All cars
 	 */
+    @Secured("hasRole('ADMIN')")
 	@GetMapping("/all")
 	public String findAll(Model model, HttpServletRequest request) {
 		model.addAttribute("cars", carRepo.findAll());
