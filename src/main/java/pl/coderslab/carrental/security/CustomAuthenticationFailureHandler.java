@@ -3,6 +3,7 @@ package pl.coderslab.carrental.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
@@ -30,19 +31,19 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
         final Locale locale = localeResolver.resolveLocale(request);
 
-        //String errorMessage = messages.getMessage("message.badCredentials", null, locale);
+        String errorMessage = messages.getMessage("message.badCredentials", null, locale);
         System.out.println(exception.getMessage());
         if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
-            //   errorMessage = messages.getMessage("auth.message.disabled", null, locale);
+            errorMessage = messages.getMessage("auth.message.disabled", null, locale);
             System.out.println("user disable");
         } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
             System.out.println("user exp");
-            //    errorMessage = messages.getMessage("auth.message.expired", null, locale);
+            errorMessage = messages.getMessage("auth.message.expired", null, locale);
         } else if (exception.getMessage().equalsIgnoreCase("blocked")) {
             System.out.println("blolkvc");
-            //  errorMessage = messages.getMessage("auth.message.blocked", null, locale);
+            errorMessage = messages.getMessage("auth.message.blocked", null, locale);
         }
-
-        //request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        request.getSession().setAttribute("errorMsg", errorMessage);
     }
 }
