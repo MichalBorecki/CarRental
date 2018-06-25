@@ -112,7 +112,7 @@ $(document).ready(function() {
 	function ajaxCall() {
 		return $.ajax({
 			type : 'GET',
-			url : "http://localhost:8080/rent/all/userInfoChart/3",
+			url : "http://localhost:8080/rent/all/userInfoChart",
 			headers : {
 				'Accept' : 'application/json',
 				'Content-Type' : 'application/json'
