@@ -99,5 +99,5 @@
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 <script src="<c:url value ='/resources/js/password-form.js'></c:url>"></script>
-</body>
+<script src="<c:url value ='/resources/pwstrength.js'></c:url>"></script>
 </html>
