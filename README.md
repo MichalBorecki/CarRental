@@ -27,20 +27,22 @@ Application features for the business owner:
 - adding a new car, editing and deleting;
 
 
-## Screenshots
+### Screenshots
+<img src="https://i.imgur.com/Vqnovca.png" width="250" />  <img src="https://i.imgur.com/MG1XwAn.png" width="250" />  <img src="https://i.imgur.com/gXyjrwz.png" width="250" />
 
-u/c
+<img src="https://i.imgur.com/5AHxbCU.png" width="250" />  <img src="https://i.imgur.com/kSPP699.png" width="250" />  <img src="https://i.imgur.com/Ny8iZEd.png" width="250" />
 
 
-## Tech/framework used 
+### Tech/framework used 
 
-Application code is written in: <b>JAVA, JavaScript, jQUERY, HTML, CSS.<b>
+Application code: <b>JAVA, JavaScript, jQuery, HTML, CSS<b>
 
 <b>Built with:<b>
+- [IntelliJ IDEA 2018.1.4 (Ultimate Edition)](https://www.jetbrains.com/idea/)
 - [Spring Tool Suite v3.9.2](https://spring.io/tools/sts/all)
+- [Spring + Spring Boot + Spring Security](https://spring.io/)
 - [Hibernate v5.4.1](http://hibernate.org/)
 - [Maven v3.3.9](https://maven.apache.org)
-- [JBCrypt v0.4](https://github.com/djmdjm/jBCrypt)
 - [JSTL v1.2](https://javaee.github.io/jstl-api/)
 - [JUnit v3.8.1](https://junit.org/junit5/)
 - [phpMyAdmin v4.5.4.1](https://www.phpmyadmin.net/)
@@ -48,16 +50,15 @@ Application code is written in: <b>JAVA, JavaScript, jQUERY, HTML, CSS.<b>
 - [Font Awesome v4.1.1](https://fontawesome.com/)
 
 Application uses:
-- Google Map API,
-- Google Maps Directions API.
+- [Google Map API](https://developers.google.com/maps/documentation/javascript/tutorial)
+- [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start)
+- [CanvasJS](https://canvasjs.com/)
+
+Implementation of Spring Boot and Spring Security based on: [SpringBoot-Registration-Login-ThePerfectExample - author: Billie Thompson](https://github.com/PanagiotisDrakatos/SpringBoot-Registration-Login-ThePerfectExample)
 
 
-## License
+### License
 
 [© Michał Borecki](https://github.com/MichalBorecki)
-
-<hr>
-
-<b>This is not the final version of CarRental, I intend to refactor the code and add some functionality by 24/06/2018</b>
 
 
