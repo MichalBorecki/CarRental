@@ -1,11 +1,11 @@
 # CarRental
 
-**CarRental** is a Java Web Application created as a <b>final project</b> of CodersLab Bootcamp: 'Java developer Web' which I attended: 09/04-08/06 2018.
+**CarRental** is a Java Web Application created as a <u>final project</u> of **CodersLab Bootcamp: 'Java developer Web'** which I attended: 09/04-08/06 2018.
 
 CarRental is my idea for an application to manage a car rental company, however, some of the implemented functionalities have been used for learning and assimilate the knowledge gained during bootcamp course.
 
 
-Application features for users:
+**Application features for users:**
 - user can use the application on his smartphone - websites are responsive;
 - marks the user's position on the map;
 - marks the cars for rental on the map;
@@ -16,7 +16,7 @@ Application features for users:
 - display the list of messages sent and received.
 
 
-Application features for the business owner:
+**Application features for the business owner:**
 - marks not rented cars on the map;
 - sending a message to the car service with a link to the map with the location of car;
 - displaying a list of all cars with additional informations;
@@ -27,13 +27,19 @@ Application features for the business owner:
 - adding a new car, editing and deleting;
 
 
-### Screenshots
-<img src="https://i.imgur.com/Vqnovca.png" width="250" />  <img src="https://i.imgur.com/MG1XwAn.png" width="250" />  <img src="https://i.imgur.com/gXyjrwz.png" width="250" />
+## Screenshots
+
+Desktop version:
 
 <img src="https://i.imgur.com/5AHxbCU.png" width="250" />  <img src="https://i.imgur.com/kSPP699.png" width="250" />  <img src="https://i.imgur.com/Ny8iZEd.png" width="250" />
 
 
-### Tech/framework used 
+Mobile version: 
+
+<img src="https://i.imgur.com/Vqnovca.png" width="250" />  <img src="https://i.imgur.com/MG1XwAn.png" width="250" />  <img src="https://i.imgur.com/gXyjrwz.png" width="250" />
+
+
+## Tech/framework used 
 
 Application code: <b>JAVA, JavaScript, jQuery, HTML, CSS<b>
 
@@ -49,7 +55,7 @@ Application code: <b>JAVA, JavaScript, jQuery, HTML, CSS<b>
 - [Bootstrap v4.1.1](http://getbootstrap.com)
 - [Font Awesome v4.1.1](https://fontawesome.com/)
 
-Application uses:
+**Application uses:**
 - [Google Map API](https://developers.google.com/maps/documentation/javascript/tutorial)
 - [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start)
 - [CanvasJS](https://canvasjs.com/)
