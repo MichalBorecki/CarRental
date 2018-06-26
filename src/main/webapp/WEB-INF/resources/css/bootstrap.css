@@ -608,15 +608,16 @@ footer {
 }
 
 #map .gm-style-iw {
-    background-color: #252525;
-
+    background-color: #ffffff;
 }
+
 #map .iw-content p {
     text-align: center;
-    color: white;
+    color: #000000;
 }
+
 #map .iw-subTitle {
-    color: white;
+    color: #ffffff;
     font-size: 16px;
     font-weight: 300;
     padding: 14px 14px;
