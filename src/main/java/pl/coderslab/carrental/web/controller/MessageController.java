@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import pl.coderslab.carrental.component.MySessionInfo;
 import pl.coderslab.carrental.persistence.dao.UserRepository;
 import pl.coderslab.carrental.persistence.model.User;
 import pl.coderslab.carrental.persistence.model.Message;
@@ -26,6 +27,9 @@ import pl.coderslab.carrental.persistence.dao.MessageRepository;
 @Controller
 @RequestMapping("/message")
 public class MessageController {
+
+	@Autowired
+	private MySessionInfo mySessionInfo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -85,11 +89,8 @@ public class MessageController {
 	@GetMapping("/all")
 	public String findAll(Model model, HttpServletRequest request) {
 
-		HttpSession sess = request.getSession();
-		User user = (User) sess.getAttribute("user");
-
-		List<Message> messages = messageRepo.findAllByUserIdOrReceiverId(user.getId());
-
+		List<Message> messages = messageRepo.findAllByUserIdOrReceiverId(mySessionInfo.getUserId());
+		model.addAttribute("user", mySessionInfo.getCurrentUser());
 		model.addAttribute("messages", messages);
 
 		// TODO
